@@ -40,5 +40,42 @@ def add_tag():
     db.session.commit()
     return redirect(url_for('index'))
 
+
+def get_posts_written_by_user(user_id: int):
+    return User.query.filter_by(user_id=user_id).first().posts
+
+
+def get_user_favorite_posts(user_id: int):
+    return User.query.filter_by(user_id=user_id).first().favorite_of
+
+
+def get_comments_written_by_user(user_id: int):
+    return User.query.filter_by(user_id=user_id).first().comments
+
+
+def get_tag_posts(tag_id: int):
+    return Tag.query.filter_by(tag_id=tag_id).first().posts
+
+
+def get_posts_comments(post_id: int):
+    return Post.query.filter_by(post_id=post_id).first().comments
+
+
+def get_user_who_favorited_post(post_id: int):
+    return Post.query.filter_by(post_id=post_id).first().favorite_of
+
+
+def get_posts_tags(post_id: int):
+    return Post.query.filter_by(post_id=post_id).first().tags
+
+
+def get_users_from_cohort(cohort_id: int):
+    return Cohort.query.filter_by(cohort_id=cohort_id).first().users
+
+
+def get_posts_by_city(city_id: int):
+    return City.query.filter_by(city_id=city_id).first().posts
+
+
 if __name__ == '__main__':
     app.run()

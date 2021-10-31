@@ -123,11 +123,27 @@ class Comments(db.Model):
         self.created_at = created_at
 
 
-def insert_initial_values(*args, **kwargs):
+def insert_initial_cohorts():
     for year in range(19, 26):
         cohort_name = 'M' + str(year)
         db.session.add(Cohort(cohort_name=cohort_name))
+
+
+def insert_initial_cities():
+    for city in ['General / All', 'San Francisco, USA', 'Seoul, Korea',
+                 'Hyderabad, India', 'Berlin, Germany', 'Buenos Aires, Argentina',
+                 'London, UK', 'Taipei, Taiwan', 'Others', 'Remote']:
+        db.session.add(City(city_name=city))
+
+
+def insert_initial_tags():
+    for tag in ['Food & Drinks', 'Cafe', 'Clothes',
+                'City Set-Up', 'Health & Fitness', 'Sightseeing',
+                'Transportation', 'Visa & Logistic', 'Financial']:
+        db.session.add(Tag(tag_name=tag))
     db.session.commit()
 
 
-event.listen(Cohort, 'after_create', insert_initial_values)
+event.listen(Cohort, 'after_create', insert_initial_cohorts)
+event.listen(City, 'after_create', insert_initial_cities)
+event.listen(Tag, 'after_create', insert_initial_tags)
