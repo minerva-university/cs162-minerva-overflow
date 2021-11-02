@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, Response
+from flask import Flask, render_template, request, redirect, url_for, Response
 from typing import List
 from flask_sqlalchemy import SQLAlchemy
 from config import Config
