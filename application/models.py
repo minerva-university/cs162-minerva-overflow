@@ -1,6 +1,8 @@
 from app import db
 import datetime
 from sqlalchemy import event
+from sqlalchemy.sql.schema import Table
+from sqlalchemy.engine.base import Connection
 
 
 """ 
@@ -192,20 +194,20 @@ class Comment(db.Model):
         self.created_at = created_at
 
 
-def insert_initial_cohorts(target, connection, **kw):
+def insert_initial_cohorts(target: Table, connection: Connection, **kw):
     for year in range(19, 26):
         cohort_name = 'M' + str(year)
         connection.execute(target.insert(), {'cohort_name': cohort_name})
 
 
-def insert_initial_cities(target, connection, **kw):
+def insert_initial_cities(target: Table, connection: Connection, **kw):
     for city in ['General / All', 'San Francisco, USA', 'Seoul, Korea',
                  'Hyderabad, India', 'Berlin, Germany', 'Buenos Aires, Argentina',
                  'London, UK', 'Taipei, Taiwan', 'Others', 'Remote']:
         connection.execute(target.insert(), {'city_name': city})
 
 
-def insert_initial_tags(target, connection, **kw):
+def insert_initial_tags(target: Table, connection: Connection, **kw):
     for tag in ['Food & Drinks', 'Cafe', 'Clothes',
                 'City Set-Up', 'Health & Fitness', 'Sightseeing',
                 'Transportation', 'Visa & Logistic', 'Financial']:
