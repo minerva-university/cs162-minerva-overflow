@@ -6,7 +6,7 @@ import tempfile
 
 import pytest
 
-from web import app, db
+from application.app import app, db
 
 
 @pytest.fixture
