@@ -2,28 +2,60 @@ from app import db
 import datetime
 from sqlalchemy import event
 
+
+""" 
+    Table for tags and posts
+     :param tag_id: unique tag id
+     :param post_id: unique post id
+"""
 tags_and_posts = db.Table('tags_and_posts',
                           db.Column('tag_id', db.Integer, db.ForeignKey('tags.tag_id'), primary_key=True),
                           db.Column('post_id', db.Integer, db.ForeignKey('posts.post_id'), primary_key=True))
 
+
+""" 
+    Table for users' favorite posts
+     :param user_id: unique user id
+     :param post_id: unique post id
+"""
 user_favorites = db.Table('user_favorites',
                           db.Column('user_id', db.Integer, db.ForeignKey('users.user_id'), primary_key=True),
                           db.Column('post_id', db.Integer, db.ForeignKey('posts.post_id'), primary_key=True))
 
 
 class Tag(db.Model):
+    """
+        Table for tags
+         :param tag_id: unique tag id
+         :param tag_name: tag name
+         :param posts: posts that are written with the mention of specific tag
+    """
     __tablename__ = 'tags'
 
     tag_id = db.Column(db.Integer, primary_key=True)
     tag_name = db.Column(db.String(), nullable=False)
-    posts = db.relationship('Post', secondary=tags_and_posts, lazy='subquery',
-                            backref=db.backref('tags', lazy=True))
+    posts = db.relationship('Post', secondary=tags_and_posts, lazy=True,
+                            backref=db.backref('posts_with_tag', lazy=True))
 
     def __init__(self, tag_name: str):
         self.tag_name = tag_name
 
 
 class Post(db.Model):
+    """
+       Table for posts
+        :param post_id: unique post id
+        :param user_id: id of the user, who wrote the post
+        :param city_id: id of the city, for which this post was written
+        :param title: title of the post
+        :param post_text: content of the post
+        :param upvotes: number of upvotes for this post
+        :param edited: boolean if the post was edited
+        :param created_at: datetime of the post creation
+        :param tags: tags mentioned in this post
+        :param comments: comments written to this post
+        :param: favorite_of: users, who chose this post as their favorite
+    """
     __tablename__ = 'posts'
 
     post_id = db.Column(db.Integer, primary_key=True)
@@ -35,10 +67,10 @@ class Post(db.Model):
     edited = db.Column(db.Boolean, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
     tags = db.relationship('Tag', secondary=tags_and_posts, lazy='subquery',
-                           backref=db.backref('posts', lazy=True))
-    comments = db.relationship('Comment', backref='posts', lazy='subquery')
+                           backref=db.backref('tags_for_post', lazy=True))
+    comments = db.relationship('Comment', backref='comments_for_post', lazy='subquery')
     favorite_of = db.relationship('User', secondary=user_favorites, lazy='subquery',
-                                  backref=db.backref('posts', lazy=True))
+                                  backref=db.backref('users_favorited_post', lazy=True))
 
     def __init__(self, user_id: int, city_id: int, title: str, post_text: str,
                  upvotes: int = 0, edited: bool = False,
@@ -53,6 +85,21 @@ class Post(db.Model):
 
 
 class User(db.Model):
+    """
+       Table for users
+        :param user_id: unique user id
+        :param user_name: username of the particular user
+        :param user_password: password of a particular user (no encryption is used as of now)
+        :param fisrt_name: first name of the user
+        :param surname: surname of the user
+        :param email: user's email address
+        :param cohort_id: user's cohort id
+        :param about_me: user's description of themselves
+        :param access_privilege: boolean if the user has admin rights
+        :param posts: posts, written by the user
+        :param comments: comments, written by the user
+        :param user_favorite_posts: user's favorite posts
+    """
     __tablename__ = 'users'
 
     user_id = db.Column(db.Integer, primary_key=True)
@@ -64,10 +111,10 @@ class User(db.Model):
     cohort_id = db.Column(db.Integer, db.ForeignKey('cohorts.cohort_id'), nullable=False)
     about_me = db.Column(db.String(), nullable=False)
     access_privilege = db.Column(db.Boolean, nullable=False)
-    posts = db.relationship('Post', backref='users', lazy=True)
+    posts = db.relationship('Post', backref='users', lazy='subquery')
     comments = db.relationship('Comment', backref='users', lazy=True)
-    favorite_of = db.relationship('Post', secondary=user_favorites, lazy='subquery',
-                                  backref=db.backref('users', lazy=True))
+    user_favorite_posts = db.relationship('Post', secondary=user_favorites, lazy=True,
+                                          backref=db.backref('user_favorite_posts', lazy=True))
 
     def __init__(self, user_name: str, user_password: str,
                  first_name: str, surname: str, email: str, cohort_id: int,
@@ -83,25 +130,47 @@ class User(db.Model):
 
 
 class City(db.Model):
+    """
+        Table for cities
+         :param city_id: unique city id
+         :param city_name: city name
+         :param posts: posts that are written with the mention of specific city
+    """
     __tablename__ = 'cities'
 
     city_id = db.Column(db.Integer, primary_key=True)
     city_name = db.Column(db.String(), nullable=False)
-    posts = db.relationship('Post', backref='cities', lazy=True)
+    posts = db.relationship('Post', backref='posts_with_city', lazy=True)
 
 
 class Cohort(db.Model):
+    """
+        Table for cohorts
+         :param cohort_id: unique cohort id
+         :param cohort_name: cohort name
+         :param posts: posts that are written with the mention of specific cohort
+    """
     __tablename__ = 'cohorts'
 
     cohort_id = db.Column(db.Integer, primary_key=True)
     cohort_name = db.Column(db.String(), nullable=False)
-    users = db.relationship('User', backref='cohorts', lazy=True)
+    users = db.relationship('User', backref='posts_with_cohort', lazy=True)
 
     def __init__(self, cohort_name: str):
         self.cohort_name = cohort_name
 
 
-class Comments(db.Model):
+class Comment(db.Model):
+    """
+       Table for posts
+        :param comment_id: unique comment id
+        :param post_id: id of the post, for which the comment was written
+        :param user_id: id of the user, who wrote the comment
+        :param comment_text: content of the comment
+        :param upvotes: number of upvotes for this comment
+        :param edited: boolean if the comment was edited
+        :param created_at: datetime of the comment creation
+    """
     __tablename__ = 'comments'
 
     comment_id = db.Column(db.Integer, primary_key=True)
@@ -123,27 +192,26 @@ class Comments(db.Model):
         self.created_at = created_at
 
 
-def insert_initial_cohorts():
+def insert_initial_cohorts(target, connection, **kw):
     for year in range(19, 26):
         cohort_name = 'M' + str(year)
-        db.session.add(Cohort(cohort_name=cohort_name))
+        connection.execute(target.insert(), {'cohort_name': cohort_name})
 
 
-def insert_initial_cities():
+def insert_initial_cities(target, connection, **kw):
     for city in ['General / All', 'San Francisco, USA', 'Seoul, Korea',
                  'Hyderabad, India', 'Berlin, Germany', 'Buenos Aires, Argentina',
                  'London, UK', 'Taipei, Taiwan', 'Others', 'Remote']:
-        db.session.add(City(city_name=city))
+        connection.execute(target.insert(), {'city_name': city})
 
 
-def insert_initial_tags():
+def insert_initial_tags(target, connection, **kw):
     for tag in ['Food & Drinks', 'Cafe', 'Clothes',
                 'City Set-Up', 'Health & Fitness', 'Sightseeing',
                 'Transportation', 'Visa & Logistic', 'Financial']:
-        db.session.add(Tag(tag_name=tag))
-    db.session.commit()
+        connection.execute(target.insert(), {'tag_name': tag})
 
 
-event.listen(Cohort, 'after_create', insert_initial_cohorts)
-event.listen(City, 'after_create', insert_initial_cities)
-event.listen(Tag, 'after_create', insert_initial_tags)
+event.listen(Tag.__table__, 'after_create', insert_initial_tags)
+event.listen(City.__table__, 'after_create', insert_initial_cities)
+event.listen(Cohort.__table__, 'after_create', insert_initial_cohorts)
