@@ -17,12 +17,12 @@ testing them, or rewriting them if needed.
 
 
 # Home page
-@app.route("/add", methods=['POST'])
+@app.route("/", methods=['POST'])
 def index():
     return render_template('index.html')
 
 
-@app.route("/add_user", methods=['POST'])
+@app.route("/users/add", methods=['POST'])
 def add_user() -> Response:
     """ Function to add user to the database """
     user = User(**request.form)
@@ -31,7 +31,7 @@ def add_user() -> Response:
     return redirect(url_for('index'))
 
 
-@app.route("/add_post", methods=['POST'])
+@app.route("/posts/add", methods=['POST'])
 def add_post() -> Response:
     """ Function to add post to the database """
     post = Post(**request.form)
@@ -40,7 +40,7 @@ def add_post() -> Response:
     return redirect(url_for('index'))
 
 
-@app.route("/add_tag", methods=['POST'])
+@app.route("/tags/add", methods=['POST'])
 def add_tag() -> Response:
     """ Function to add tag to the database """
     tag = Tag(**request.form)
@@ -49,7 +49,7 @@ def add_tag() -> Response:
     return redirect(url_for('index'))
 
 
-@app.route("/add_tag_to_post/<tag_id>/<post_id>", methods=['POST'])
+@app.route("/posts/add_tag/<tag_id>/<post_id>", methods=['POST'])
 def add_tag_to_post(tag_id: int, post_id: int) -> Response:
     """ Function to add tag to the post in the database """
     db.session.execute(tags_and_posts.insert().values(tag_id=tag_id, post_id=post_id))
@@ -57,7 +57,7 @@ def add_tag_to_post(tag_id: int, post_id: int) -> Response:
     return redirect(url_for('index'))
 
 
-@app.route("/edit_post/<post_id>", methods=['POST'])
+@app.route("/posts/edit/<post_id>", methods=['POST'])
 def edit_post(post_id: int) -> Response:
     """ Function to edit post in the database """
     post = Post.query.filter_by(post_id=int(post_id)).first()
@@ -72,7 +72,7 @@ def edit_post(post_id: int) -> Response:
     return redirect(url_for('index'))
 
 
-@app.route("/upvote_post/<post_id>", methods=['POST'])
+@app.route("/posts/upvote/<post_id>", methods=['POST'])
 def upvote_post(post_id: int) -> Response:
     """ Function to upvote post """
     post = Post.query.filter_by(post_id=int(post_id)).first()
