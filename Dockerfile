@@ -1,5 +1,5 @@
 ###
-FROM python:3-alpine
+FROM python:3.7-alpine3.13
 COPY requirements.txt .
 
 # Set the working directory to /web
