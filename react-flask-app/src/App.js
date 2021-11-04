@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Header contact={{username: XYZ}}/>
+        <Header contact={{username: "XYZ"}}/>
         
       </header>
     </div>
