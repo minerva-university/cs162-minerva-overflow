@@ -1,4 +1,4 @@
-from flask import Blueprint, request, abort, Response, jsonify, json
+from flask import Blueprint, request, abort, Response, jsonify
 from typing import List
 from application.models import *
 
@@ -14,6 +14,7 @@ def index():
 def get_users() -> Response:
     """Function to get all users from the database"""
     users = User.query.all()
+    print(type(jsonify(users)))
     return jsonify(users), 201
 
 
@@ -112,25 +113,27 @@ def add_tag_to_post(tag_id: int, post_id: int) -> Response:
     )
 
 
-# @api.route("/posts/<post_id>", methods=["POST"])
-# def upvote_post(post_id: int) -> Response:
-#     """Function to upvote post"""
-#     post = Post.query.filter_by(post_id=int(post_id)).first()
-#     post.upvotes += 1
-#     db.session.commit()
+'''
+@api.route("/posts/<post_id>", methods=["POST"])
+def upvote_post(post_id: int) -> Response:
+    """Function to upvote post"""
+    post = Post.query.filter_by(post_id=int(post_id)).first()
+    post.upvotes += 1
+    db.session.commit()
 
-#     return redirect(url_for("index"))
+    return redirect(url_for("index"))
+'''
 
 
 @api.route("/cohorts", methods=["GET"])
-def get_cohorts():
+def get_cohorts() -> Response:
     """Get all cohorts in database"""
     cohorts = Cohort.query.all()
     return jsonify(cohorts), 201
 
 
 @api.route("/cities", methods=["GET"])
-def get_cities():
+def get_cities() -> Response:
     """Get all cities in database"""
     cities = City.query.all()
     return jsonify(cities), 201
@@ -178,5 +181,5 @@ def get_posts_by_city(city_id: int) -> List[Post]:
     return City.query.filter_by(city_id=city_id).first().posts
 
 
-def get_posts_by_cohoty(cohort_id: int) -> List[Post]:
+def get_posts_by_cohort(cohort_id: int) -> List[Post]:
     return Cohort.query.filter_by(cohort_id=cohort_id).first().posts

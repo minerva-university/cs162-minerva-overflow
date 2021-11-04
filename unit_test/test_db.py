@@ -1,4 +1,3 @@
-import pytest
 from flask import Flask
 from application.models import *
 from application.api import get_posts_written_by_user, get_tag_posts, get_post_tags

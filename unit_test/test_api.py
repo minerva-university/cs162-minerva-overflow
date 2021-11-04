@@ -1,6 +1,3 @@
-from flask import json
-
-
 def test_initialize_server(client):
     """test that server is running"""
     rv = client.get("/")
