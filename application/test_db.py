@@ -1,7 +1,8 @@
 import pytest
 from flask import Flask
-from app import create_app, db, get_posts_written_by_user, get_tag_posts, get_post_tags
+from app import get_posts_written_by_user, get_tag_posts, get_post_tags, create_app
 from models import *
+from extensions import db
 
 
 @pytest.fixture
