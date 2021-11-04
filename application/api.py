@@ -1,6 +1,6 @@
 from flask import Blueprint, request, abort, Response, jsonify, json
 from typing import List
-from models import *
+from application.models import *
 
 api = Blueprint("api", __name__)
 

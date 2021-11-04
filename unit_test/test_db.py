@@ -1,26 +1,7 @@
 import pytest
 from flask import Flask
-from app import create_app
-from models import *
-from extensions import db
-from api import get_posts_written_by_user, get_tag_posts, get_post_tags
-
-
-@pytest.fixture
-def client() -> Flask:
-    app = create_app()
-
-    app.config["TESTING"] = True
-    app.testing = True
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///"
-
-    client = app.test_client()
-    with app.app_context():
-        db.create_all()
-        db.session.commit()
-    yield client
-    with app.app_context():
-        db.drop_all()
+from application.models import *
+from application.api import get_posts_written_by_user, get_tag_posts, get_post_tags
 
 
 def test_prior_db_fill(client: Flask):
@@ -132,7 +113,3 @@ def test_many_to_many_relationship(client: Flask):
         "Cafe",
         "City Set-Up",
     ]
-
-
-if __name__ == "__main__":
-    pytest.main()

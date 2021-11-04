@@ -1,3 +1,21 @@
-# In this file you can put any configuration for pytest.
-# Pytest is used in this project to run all the unit tests.
-# For a simple example like this we can leave it blank.
+import pytest
+from flask import Flask
+from application.app import create_app
+from application.extensions import db
+
+
+@pytest.fixture
+def client() -> Flask:
+    app = create_app()
+
+    app.config["TESTING"] = True
+    app.testing = True
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///"
+
+    client = app.test_client()
+    with app.app_context():
+        db.create_all()
+        db.session.commit()
+    yield client
+    with app.app_context():
+        db.drop_all()

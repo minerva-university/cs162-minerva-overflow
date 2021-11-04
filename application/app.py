@@ -1,9 +1,9 @@
 from flask import Flask
 
-from config import Config
-from models import *
-from extensions import db
-from api import api
+from application.config import Config
+from application.models import *
+from application.extensions import db
+from application.api import api
 
 
 def create_app(config=Config) -> Flask:
