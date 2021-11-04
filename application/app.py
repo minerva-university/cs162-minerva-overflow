@@ -1,23 +1,25 @@
-from flask import Flask, request, redirect, url_for, Response, json
-from typing import List
-from flask_sqlalchemy import SQLAlchemy
 from config import Config
-
-app = Flask(__name__)
-app.config.from_object(Config)
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-db = SQLAlchemy(app)
-
-
-"""
-All of these route functions are not tested and given just for the reference of the other backend developers. Consider 
-testing them, or rewriting them if needed.
-"""
+from flask import Flask, render_template, request, redirect, url_for, Response
+from typing import List
 from models import *
+from extensions import db
 
 
-# Home page
-@app.route("/")
+def create_app() -> Flask:
+    application = Flask(__name__)
+    application.config.from_object(Config)
+    application.app_context().push()
+    db.init_app(application)
+    with application.app_context():
+        db.create_all()
+        db.session.commit()
+    return application
+
+
+app = create_app()
+
+
+@app.route("/", methods=["POST"])
 def index():
     return "Server is running"
 
@@ -147,13 +149,6 @@ def get_posts_by_city(city_id: int) -> List[Post]:
 
 def get_posts_by_cohoty(cohort_id: int) -> List[Post]:
     return Cohort.query.filter_by(cohort_id=cohort_id).first().posts
-
-
-def create_app() -> Flask:
-    db.init_app(app)
-    db.create_all()
-    db.session.commit()
-    return app
 
 
 if __name__ == "__main__":

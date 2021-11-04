@@ -1,9 +1,8 @@
-from app import db
 import datetime
 from sqlalchemy import event
 from sqlalchemy.sql.schema import Table
 from sqlalchemy.engine.base import Connection
-
+from extensions import db
 
 """ 
     Table for tags and posts
