@@ -14,7 +14,6 @@ def index():
 def get_users() -> Response:
     """Function to get all users from the database"""
     users = User.query.all()
-    print(type(jsonify(users)))
     return jsonify(users), 201
 
 
