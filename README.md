@@ -57,8 +57,8 @@ All environment variables are stored within the `.env` file and loaded with dote
 
 Start the server by running:
 ```
-cd application
-python3 app.py
+export FLASK_APP=application.app
+flask run
 ```
 ## Unit Tests
 To run the unit tests use the following commands:
