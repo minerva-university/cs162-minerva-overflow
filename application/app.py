@@ -1,5 +1,5 @@
 from config import Config
-from flask import Flask, render_template, request, redirect, url_for, Response
+from flask import Flask, render_template, request, redirect, url_for, Response, json
 from typing import List
 from models import *
 from extensions import db
@@ -19,7 +19,7 @@ def create_app() -> Flask:
 app = create_app()
 
 
-@app.route("/", methods=["POST"])
+@app.route("/")
 def index():
     return "Server is running"
 
