@@ -3,6 +3,8 @@ from sqlalchemy import event
 from sqlalchemy.sql.schema import Table
 from sqlalchemy.engine.base import Connection
 from extensions import db
+from dataclasses import dataclass
+
 
 """ 
     Table for tags and posts
@@ -28,6 +30,7 @@ user_favorites = db.Table(
 )
 
 
+@dataclass
 class Tag(db.Model):
     """
     Table for tags
@@ -35,6 +38,10 @@ class Tag(db.Model):
      :param tag_name: tag name
      :param posts: posts that are written with the mention of specific tag
     """
+
+    # adding specification to create json object
+    tag_id: int
+    tag_name: str
 
     __tablename__ = "tags"
 
@@ -51,6 +58,7 @@ class Tag(db.Model):
         self.tag_name = tag_name
 
 
+@dataclass
 class Post(db.Model):
     """
     Table for posts
@@ -66,6 +74,16 @@ class Post(db.Model):
      :param comments: comments written to this post
      :param: favorite_of: users, who chose this post as their favorite
     """
+
+    # adding specification to create json object
+    post_id: int
+    user_id: int
+    city_id: int
+    title: str
+    post_text: str
+    upvotes: int
+    edited: bool
+    created_at: datetime.datetime
 
     __tablename__ = "posts"
 
@@ -110,6 +128,7 @@ class Post(db.Model):
         self.created_at = created_at
 
 
+@dataclass
 class User(db.Model):
     """
     Table for users
@@ -126,6 +145,17 @@ class User(db.Model):
      :param comments: comments, written by the user
      :param user_favorite_posts: user's favorite posts
     """
+
+    # adding specification to create json object
+    user_id: int
+    user_name: str
+    user_password: str
+    first_name: str
+    surname: str
+    email: str
+    cohort_id: int
+    about_me: str
+    access_privilege: bool
 
     __tablename__ = "users"
 
@@ -170,6 +200,7 @@ class User(db.Model):
         self.access_privilege = access_privilege
 
 
+@dataclass
 class City(db.Model):
     """
     Table for cities
@@ -178,6 +209,10 @@ class City(db.Model):
      :param posts: posts that are written with the mention of specific city
     """
 
+    # adding specification to create json object
+    city_id: int
+    city_name: str
+
     __tablename__ = "cities"
 
     city_id = db.Column(db.Integer, primary_key=True)
@@ -185,6 +220,7 @@ class City(db.Model):
     posts = db.relationship("Post", backref="posts_with_city", lazy=True)
 
 
+@dataclass
 class Cohort(db.Model):
     """
     Table for cohorts
@@ -192,6 +228,10 @@ class Cohort(db.Model):
      :param cohort_name: cohort name
      :param posts: posts that are written with the mention of specific cohort
     """
+
+    # adding specification to create json object
+    cohort_id: int
+    cohort_name: str
 
     __tablename__ = "cohorts"
 
@@ -203,6 +243,7 @@ class Cohort(db.Model):
         self.cohort_name = cohort_name
 
 
+@dataclass
 class Comment(db.Model):
     """
     Table for posts
@@ -214,6 +255,15 @@ class Comment(db.Model):
      :param edited: boolean if the comment was edited
      :param created_at: datetime of the comment creation
     """
+
+    # adding specification to create json object
+    comment_id: int
+    post_id: int
+    user_id: int
+    comment_text: str
+    upvotes: int
+    edited: bool
+    created_at: datetime.datetime
 
     __tablename__ = "comments"
 
