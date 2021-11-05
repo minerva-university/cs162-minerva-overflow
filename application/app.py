@@ -2,7 +2,7 @@ from application.config import Config
 from flask import Flask, render_template, request, redirect, url_for, Response
 from typing import List
 from application.models import *
-from extensions import db
+from application.extensions import db
 
 
 def create_app() -> Flask:
