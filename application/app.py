@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, Response
 from typing import List
 from models import *
 from extensions import db
+import flask_whooshalchemy as wa
 
 
 def create_app() -> Flask:
@@ -18,6 +19,7 @@ def create_app() -> Flask:
 
 app = create_app()
 
+wa.whoosh_index(app, Post)
 
 @app.route("/", methods=['POST'])
 def index():
@@ -128,6 +130,9 @@ def get_posts_by_city(city_id: int) -> List[Post]:
 
 def get_posts_by_cohoty(cohort_id: int) -> List[Post]:
     return Cohort.query.filter_by(cohort_id=cohort_id).first().posts
+
+def query_search_posts(query: str) -> List[Post]:
+    return Post.query.whoosh_search(query).all()
 
 
 if __name__ == '__main__':
