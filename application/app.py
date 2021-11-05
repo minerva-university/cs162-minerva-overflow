@@ -1,4 +1,4 @@
-from config import Config
+from application.config import Config
 from flask import Flask, render_template, request, redirect, url_for, Response
 from typing import List
 from models import *
