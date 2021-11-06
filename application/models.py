@@ -4,6 +4,7 @@ from sqlalchemy.sql.schema import Table
 from sqlalchemy.engine.base import Connection
 from application.extensions import db
 
+
 """ 
     Table for tags and posts
      :param tag_id: unique tag id
@@ -58,6 +59,7 @@ class Post(db.Model):
         :param: favorite_of: users, who chose this post as their favorite
     """
     __tablename__ = 'posts'
+    __searchable__ = ['title', 'post_text']
 
     post_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
