@@ -1,8 +1,8 @@
-from config import Config
+from application.config import Config
 from flask import Flask, render_template, request, redirect, url_for, Response
 from typing import List
-from models import *
-from extensions import db
+from application.models import *
+from application.extensions import db
 import flask_whooshalchemy as wa
 
 
