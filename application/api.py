@@ -36,7 +36,8 @@ def add_user() -> Tuple[Response, int]:
     existing_user = User.query.filter_by(
         user_name=request.json["user"]["user_name"]
     ).first()
-    if existing_user:
+    existing_email = User.query.filter_by(email=request.json["user"]["email"]).first()
+    if existing_user or existing_email:
         abort(403)
     user = User(**request.json["user"])
     db.session.add(user)
