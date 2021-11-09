@@ -87,6 +87,7 @@ class Post(db.Model):
     created_at: datetime.datetime
 
     __tablename__ = "posts"
+    # __searchable__ = ["title", "post_text"]
 
     post_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)

@@ -1,4 +1,6 @@
 from flask import Blueprint, request, abort, Response, jsonify
+
+# import flask_whooshalchemy as wa
 from typing import List, Tuple
 from application.models import *
 
@@ -182,3 +184,7 @@ def get_posts_by_city(city_id: int) -> List[Post]:
 
 def get_posts_by_cohort(cohort_id: int) -> List[Post]:
     return Cohort.query.filter_by(cohort_id=cohort_id).first().posts
+
+
+# def query_search_posts(query: str) -> List[Post]:
+#     return Post.query.whoosh_search(query).all()

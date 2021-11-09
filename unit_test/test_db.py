@@ -1,6 +1,12 @@
 from flask import Flask
 from application.models import *
-from application.api import get_posts_written_by_user, get_tag_posts, get_post_tags
+from application.api import (
+    get_posts_written_by_user,
+    get_tag_posts,
+    get_post_tags,
+)
+
+# from application.api import query_search_posts
 
 
 def test_prior_db_fill(client: Flask):
@@ -112,3 +118,37 @@ def test_many_to_many_relationship(client: Flask):
         "Cafe",
         "City Set-Up",
     ]
+
+
+"""
+Commenting because the library might not be supported
+To be updated
+
+def test_query_search(client: Flask):
+    query = "donuts"
+
+    post1 = Post(
+        user_id=1,
+        city_id=2,
+        title="Best Donuts in USA",
+        post_text="Bob's Donuts are so so great. I love them!",
+    )
+    post2 = Post(
+        user_id=1,
+        city_id=2,
+        title="AWS Loft",
+        post_text="Nice coworking space available for free",
+    )
+    db.session.add(post1)
+    db.session.add(post2)
+
+    db.session.execute(tags_and_posts.insert().values(tag_id=1, post_id=2))
+    db.session.execute(tags_and_posts.insert().values(tag_id=3, post_id=2))
+    db.session.execute(tags_and_posts.insert().values(tag_id=1, post_id=1))
+    db.session.execute(tags_and_posts.insert().values(tag_id=2, post_id=1))
+    db.session.execute(tags_and_posts.insert().values(tag_id=4, post_id=1))
+
+    db.session.commit()
+    donuts_posts = query_search_posts(query)
+    assert [post.title for post in donuts_posts] == ["Best Donuts in USA"]
+"""
