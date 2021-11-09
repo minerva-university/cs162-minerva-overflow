@@ -46,7 +46,7 @@ class Tag(db.Model):
 
     __tablename__ = "tags"
 
-    tag_id = db.Column(db.Integer, primary_key=True)
+    tag_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     tag_name = db.Column(db.String(), nullable=False)
     posts = db.relationship(
         "Post",
@@ -89,14 +89,16 @@ class Post(db.Model):
     __tablename__ = "posts"
     # __searchable__ = ["title", "post_text"]
 
-    post_id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
     city_id = db.Column(db.Integer, db.ForeignKey("cities.city_id"), nullable=False)
     title = db.Column(db.String(), nullable=False)
     post_text = db.Column(db.String(), nullable=False)
-    upvotes = db.Column(db.Integer, nullable=False)
-    edited = db.Column(db.Boolean, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False)
+    upvotes = db.Column(db.Integer, nullable=False, default=0)
+    edited = db.Column(db.Boolean, nullable=False, default=False)
+    created_at = db.Column(
+        db.DateTime, nullable=False, default=datetime.datetime.utcnow
+    )
     tags = db.relationship(
         "Tag",
         secondary=tags_and_posts,
@@ -119,7 +121,7 @@ class Post(db.Model):
         post_text: str,
         upvotes: int = 0,
         edited: bool = False,
-        created_at: datetime.datetime = datetime.datetime.now(),
+        created_at: datetime.datetime = None,
     ):
         self.user_id = user_id
         self.city_id = city_id
@@ -127,7 +129,8 @@ class Post(db.Model):
         self.post_text = post_text
         self.upvotes = upvotes
         self.edited = edited
-        self.created_at = created_at
+        if created_at is not None:
+            self.created_at = created_at
 
 
 @dataclass
@@ -161,17 +164,17 @@ class User(db.Model):
 
     __tablename__ = "users"
 
-    user_id = db.Column(db.Integer, primary_key=True)
-    user_name = db.Column(db.String(20), nullable=False)
+    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_name = db.Column(db.String(20), nullable=False, unique=True)
     user_password = db.Column(db.String(20), nullable=False)
     first_name = db.Column(db.String(), nullable=False)
     surname = db.Column(db.String(), nullable=False)
-    email = db.Column(db.String(), nullable=False)
+    email = db.Column(db.String(), nullable=False, unique=True)
     cohort_id = db.Column(
         db.Integer, db.ForeignKey("cohorts.cohort_id"), nullable=False
     )
     about_me = db.Column(db.String(), nullable=False)
-    access_privilege = db.Column(db.Boolean, nullable=False)
+    access_privilege = db.Column(db.Boolean, nullable=False, default=0)
     posts = db.relationship("Post", backref="users", lazy="subquery")
     comments = db.relationship("Comment", backref="users", lazy=True)
     user_favorite_posts = db.relationship(
@@ -217,7 +220,7 @@ class City(db.Model):
 
     __tablename__ = "cities"
 
-    city_id = db.Column(db.Integer, primary_key=True)
+    city_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     city_name = db.Column(db.String(), nullable=False)
     posts = db.relationship("Post", backref="posts_with_city", lazy=True)
 
@@ -237,7 +240,7 @@ class Cohort(db.Model):
 
     __tablename__ = "cohorts"
 
-    cohort_id = db.Column(db.Integer, primary_key=True)
+    cohort_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     cohort_name = db.Column(db.String(), nullable=False)
     users = db.relationship("User", backref="posts_with_cohort", lazy=True)
 
@@ -269,13 +272,15 @@ class Comment(db.Model):
 
     __tablename__ = "comments"
 
-    comment_id = db.Column(db.Integer, primary_key=True)
+    comment_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     post_id = db.Column(db.Integer, db.ForeignKey("posts.post_id"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
     comment_text = db.Column(db.String(), nullable=False)
-    upvotes = db.Column(db.Integer, nullable=False)
-    edited = db.Column(db.Boolean, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False)
+    upvotes = db.Column(db.Integer, nullable=False, default=0)
+    edited = db.Column(db.Boolean, nullable=False, default=False)
+    created_at = db.Column(
+        db.DateTime, nullable=False, default=datetime.datetime.utcnow
+    )
 
     def __init__(
         self,
@@ -284,14 +289,15 @@ class Comment(db.Model):
         comment_text: str,
         upvotes: int = 0,
         edited: bool = False,
-        created_at: datetime.datetime = datetime.datetime.now(),
+        created_at: datetime.datetime = None,
     ):
         self.post_id = post_id
         self.user_id = user_id
         self.comment_text = comment_text
         self.upvotes = upvotes
         self.edited = edited
-        self.created_at = created_at
+        if created_at is not None:
+            self.created_at = created_at
 
 
 def insert_initial_cohorts(target: Table, connection: Connection, **kw):

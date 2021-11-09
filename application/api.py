@@ -19,11 +19,25 @@ def get_users() -> Tuple[Response, int]:
     return (jsonify(users), 201)
 
 
+@api.route("/users/<int:user_id>", methods=["GET"])
+def get_user(user_id: int) -> Tuple[Response, int]:
+    """Function to get post from its id in the database"""
+    user = User.query.filter_by(user_id=int(user_id)).first()
+    if not user:
+        abort(400)
+    return (jsonify(user), 201)
+
+
 @api.route("/users", methods=["POST"])
 def add_user() -> Tuple[Response, int]:
     """Function to add a new user to the database"""
     if not request.json or not "user" in request.json:
         abort(400)
+    existing_user = User.query.filter_by(
+        user_name=request.json["user"]["user_name"]
+    ).first()
+    if existing_user:
+        abort(403)
     user = User(**request.json["user"])
     db.session.add(user)
     db.session.commit()
@@ -58,6 +72,15 @@ def add_post() -> Tuple[Response, int]:
     )
 
 
+@api.route("/posts/<int:post_id>", methods=["GET"])
+def get_post(post_id: int) -> Tuple[Response, int]:
+    """Function to get post from its id in the database"""
+    post = Post.query.filter_by(post_id=int(post_id)).first()
+    if not post:
+        abort(400)
+    return (jsonify(post), 201)
+
+
 @api.route("/posts/<int:post_id>", methods=["PUT"])
 def edit_post(post_id: int) -> Tuple[Response, int]:
     """Function to edit post in the database"""
@@ -73,6 +96,20 @@ def edit_post(post_id: int) -> Tuple[Response, int]:
     db.session.commit()
     return (
         jsonify({"message": f"Post {post.post_id} updated successfully", "post": post}),
+        201,
+    )
+
+
+@api.route("/posts/<int:post_id>", methods=["DELETE"])
+def delete_post(post_id: int) -> Tuple[Response, int]:
+    """Function to delete post in the database"""
+    post = Post.query.filter_by(post_id=int(post_id)).first()
+    if not post:
+        abort(400)
+    db.session.delete(post)
+    db.session.commit()
+    return (
+        jsonify({"message": f"Post {post_id} deleted successfully"}),
         201,
     )
 
