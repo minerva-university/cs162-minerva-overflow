@@ -1,4 +1,5 @@
 import os
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -7,9 +8,9 @@ class Config(object):
     TESTING = False
     CSRF_ENABLED = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-    WHOOSH_BASE = 'whoosh'
-    SECRET_KEY = '192b9bdd22ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d54727823bcbf'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///'
+    # WHOOSH_BASE = "whoosh"
+    SECRET_KEY = "192b9bdd22ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d54727823bcbf"
+    SQLALCHEMY_DATABASE_URI = "sqlite:///"
 
 
 class ProductionConfig(Config):
