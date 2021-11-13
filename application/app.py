@@ -2,14 +2,15 @@ from flask import Flask
 
 # import flask_whooshalchemy as wa
 
+import os
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+print(basedir)
+
 from application.extensions import db
 from application.api import api
 from config import Config
 from application.models import Post
-
-import os
-
-basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 def create_app(config=Config) -> Flask:
