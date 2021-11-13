@@ -4,8 +4,12 @@ from flask import Flask
 
 from application.extensions import db
 from application.api import api
-from application.config import Config
+from config import Config
 from application.models import Post
+
+import os
+
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 def create_app(config=Config) -> Flask:
@@ -22,5 +26,6 @@ def create_app(config=Config) -> Flask:
 
 
 if __name__ == "__main__":
+    print(basedir)
     app = create_app()
     app.run()
