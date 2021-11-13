@@ -1,1 +1,1 @@
-web: gunicorn web:app
+web: gunicorn --chdir deploytest deploytest.wsgi:app
