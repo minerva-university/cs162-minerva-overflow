@@ -2,15 +2,15 @@ import "./App.css";
 import React, { useState, useEffect } from "react";
 import Header from "./components/Header.js";
 import Post from "./components/Post.js";
-import Tags from "./components/Tags.js";
+// import Tags from "./components/Tags.js";
 
 function App() {
-  const [currentTime, setCurrentTime] = useState(1);
+  const [tagSize, setTagSize] = useState(1);
   useEffect(() => {
     fetch("/tags")
       .then((res) => res.json())
       .then((data) => {
-        setCurrentTime(data.size);
+        setTagSize(JSON.stringify(data.map((obj) => obj.tag_name)));
       });
   }, []);
 
@@ -21,7 +21,7 @@ function App() {
         <Post name={"First Post"}></Post>
         <Post name={"Second Post"}></Post>
         {/* <Tags></Tags> */}
-        <p>{currentTime}</p>
+        <p>{tagSize}</p>
       </header>
     </div>
   );
