@@ -94,6 +94,7 @@ flask run
 ```
 cd frontend
 npm install 
+npm run start-api 
 npm run start 
 ```
 ## Run Tests
