@@ -24,7 +24,7 @@ def get_user(user_id: int) -> Tuple[Response, int]:
     """Function to get post from its id in the database"""
     user = User.query.filter_by(user_id=int(user_id)).first()
     if not user:
-        abort(400)
+        abort(400, "User doesn't exist")
     return (jsonify(user), 201)
 
 
@@ -32,13 +32,15 @@ def get_user(user_id: int) -> Tuple[Response, int]:
 def add_user() -> Tuple[Response, int]:
     """Function to add a new user to the database"""
     if not request.json or not "user" in request.json:
-        abort(400)
+        abort(400, "Request form incorrect")
     existing_user = User.query.filter_by(
         user_name=request.json["user"]["user_name"]
     ).first()
+    if existing_user:
+        abort(403, "Username already exists")
     existing_email = User.query.filter_by(email=request.json["user"]["email"]).first()
-    if existing_user or existing_email:
-        abort(403)
+    if existing_email:
+        abort(403, "Email already exists")
     user = User(**request.json["user"])
     db.session.add(user)
     db.session.commit()
@@ -61,7 +63,7 @@ def get_all_posts() -> Tuple[Response, int]:
 def add_post() -> Tuple[Response, int]:
     """Function to add a new post to the database"""
     if not request.json or not "post" in request.json:
-        abort(400)
+        abort(400, "Request form incorrect")
     post = Post(**request.json["post"])
     db.session.add(post)
     db.session.commit()
@@ -78,7 +80,7 @@ def get_post(post_id: int) -> Tuple[Response, int]:
     """Function to get post from its id in the database"""
     post = Post.query.filter_by(post_id=int(post_id)).first()
     if not post:
-        abort(400)
+        abort(400, "Post doesn't exist")
     return (jsonify(post), 201)
 
 
@@ -87,7 +89,7 @@ def edit_post(post_id: int) -> Tuple[Response, int]:
     """Function to edit post in the database"""
     post = Post.query.filter_by(post_id=int(post_id)).first()
     if not post:
-        abort(400)
+        abort(400, "Post doesn't exist")
     new_post_dict = request.json["post"]
     for item, value in post.__dict__.items():
         new_entry = new_post_dict.get(item)
@@ -106,7 +108,7 @@ def delete_post(post_id: int) -> Tuple[Response, int]:
     """Function to delete post in the database"""
     post = Post.query.filter_by(post_id=int(post_id)).first()
     if not post:
-        abort(400)
+        abort(400, "Post doesn't exist")
     db.session.delete(post)
     db.session.commit()
     return (
@@ -126,7 +128,7 @@ def get_tags() -> Tuple[Response, int]:
 def add_tag() -> Tuple[Response, int]:
     """Function to add a new tag to the database"""
     if not request.json or not "tag" in request.json:
-        abort(400)
+        abort(400, "Request form incorrect")
     tag = Tag(**request.json["tag"])
     db.session.add(tag)
     db.session.commit()
