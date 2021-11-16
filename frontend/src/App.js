@@ -14,14 +14,25 @@ function App() {
       });
   }, []);
 
+  const [cohorts, setCohorts] = useState(1);
+  useEffect(() => {
+    fetch("/cohorts")
+      .then((res) => res.json())
+      .then((data) => {
+        setCohorts(JSON.stringify(data.map((obj) => obj.cohort_name)));
+      });
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
         <Header contact={{ username: "XYZ" }} />
         <Post name={"First Post"}></Post>
         <Post name={"Second Post"}></Post>
+        <Post name={"Third Post"}></Post>
         {/* <Tags></Tags> */}
         <p>{tagSize}</p>
+        <p>{cohorts}</p>
       </header>
     </div>
   );
