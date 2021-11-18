@@ -9,7 +9,7 @@ function Post(props) {
     post_text: "Bob's Donuts are so so great. I love them!",
   };
   return (
-    <div className="Button">
+    <div className="Post">
       {/* <Card> */}
       <h4>{mock_data.title}</h4>
       <p>{mock_data.post_text}</p>

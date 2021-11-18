@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 function Elem(prop) {
-  const [elements, setElements] = useState("loading...");
+  const [elements, setElements] = useState(["loading..."]);
   useEffect(() => {
     fetch(prop.path)
       .then((res) => res.json())
@@ -12,8 +12,10 @@ function Elem(prop) {
   console.log(elements);
   const listItems = elements.map((e) => <p className="Button">{e}</p>);
   return (
-    <div>
-      <p>{listItems}</p>
+    <div className="TagContainer">
+      <div>{prop.path}</div>
+      <div className="Tags">{listItems}</div>
+      {/* {console.log(typeof elements == typeof [])} */}
     </div>
   );
 }
