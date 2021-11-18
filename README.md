@@ -90,13 +90,15 @@ flask run
 ```
 
 ## Run Frontend 
+*Make sure you is running backend before starting front-end!
 
 ```
 cd frontend
 npm install 
-npm run start-api 
 npm run start 
 ```
+
+
 ## Run Tests
 To run the unit tests use the following commands:
 ```
