@@ -13,11 +13,11 @@
     "typescript": "^4.4.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "start-node17": "react-scripts --openssl-legacy-provider start",
+    "start": "craco start",
+    "start-node17": "craco --openssl-legacy-provider start",
     "start-api": "cd ../ && flask run --no-debugger",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

@@ -6,7 +6,6 @@ function Header(props) {
   return (
     <div>
       <title>Minerva Overflow</title>
-      <p>Welcome, {props.contact.username}</p>
     </div>
   );
 }
