@@ -2,7 +2,7 @@
 web/web.db
 venv_unit/
 venv_integration/
-
+node_modules/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
