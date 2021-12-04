@@ -11,6 +11,10 @@ from application.models import Post
 
 def create_app(config=Config) -> Flask:
     app = Flask(__name__)
+
+    @api.route("/")
+    def index():
+        return {"Server": "is running"}
     #app.config.from_object(config)
     #app.app_context().push()
     #db.init_app(app)
