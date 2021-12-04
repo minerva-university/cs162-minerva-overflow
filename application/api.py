@@ -4,14 +4,12 @@ from flask import Blueprint, request, abort, Response, jsonify
 from typing import List, Tuple
 from application.models import *
 
+
 api = Blueprint("api", __name__)
-
-
 @api.route("/")
 def index():
     return {"Server": "is running"}
-
-
+   
 @api.route("/users", methods=["GET"])
 def get_users() -> Tuple[Response, int]:
     """Function to get all users from the database"""
