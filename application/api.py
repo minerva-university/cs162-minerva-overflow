@@ -9,7 +9,7 @@ api = Blueprint("api", __name__)
 
 @api.route("/")
 def index():
-    return "Server is running"
+    return {"Server": "is running"}
 
 
 @api.route("/users", methods=["GET"])
