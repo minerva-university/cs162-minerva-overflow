@@ -20,7 +20,7 @@ A CS162 Final Project.
 
   Virtual environment is a key component in ensuring that the application is configured in the right environment
 
-  Requirments: Python 3 and pip 3 
+  Requirements: Python 3 and pip 3 
 
   ```
   brew install python3
