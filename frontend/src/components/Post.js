@@ -12,11 +12,11 @@ function Post(props) {
   return (
     <div className="Post">
       {/* <Card> */}
-      <div class='uparrow'>
-        <button >upvote</button>
+      <div className="uparrow">
+        <button className="upvote-button">upvote</button>
         <p>{mock_data.upvote}</p>
       </div>
-      <div className='post_info'>
+      <div className="post_info">
         <h4>{mock_data.title}</h4>
         <p>{mock_data.post_text}</p>
         <p>Posted by {mock_data.name}</p>

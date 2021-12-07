@@ -45,11 +45,8 @@
   padding: 0.25em 1em;
   border-radius: 3px;
   display: flex;
-}
-
-.uparrow {
-  width:20%;
-  margin:auto;
+  flex-direction: row;
+  gap: 10px;
 }
 
 .Button {
@@ -79,5 +76,9 @@
 }
 
 .uparrow {
-  width: 10px;
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
