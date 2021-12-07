@@ -12,9 +12,9 @@ function App() {
       <NavBar />
       <header className="App-header">
         <Header contact={{ username: "XYZ" }} />
-        <Post name={"First Post"}></Post>
         <Elem path="/cohorts" tagName="cohort_name"></Elem>
         <Elem path="/tags" tagName="tag_name"></Elem>
+        <Post name={"First Post"}></Post>
       </header>
     </div>
   );

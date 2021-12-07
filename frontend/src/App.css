@@ -44,6 +44,12 @@
   margin: 0.5em;
   padding: 0.25em 1em;
   border-radius: 3px;
+  display: flex;
+}
+
+.uparrow {
+  width:20%;
+  margin:auto;
 }
 
 .Button {
@@ -66,4 +72,12 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+}
+
+.post_info {
+  width: 80%
+}
+
+.uparrow {
+  width: 10px;
 }
