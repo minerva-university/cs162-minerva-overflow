@@ -11,6 +11,7 @@ function Post(props) {
   return (
     <div className="Post">
       {/* <Card> */}
+      <button class='uparrow'>Here</button>
       <h4>{mock_data.title}</h4>
       <p>{mock_data.post_text}</p>
       <p>Posted by {mock_data.name}</p>
