@@ -4,7 +4,7 @@ import Header from "./components/Header.js";
 import Post from "./components/Post.js";
 import NavBar from "./components/Nav.js";
 import Elem from "./components/RenderElem.js";
-// import Tags from "./components/Tags.js";
+import Tags from "./components/Tags.js";
 
 function App() {
   return (
@@ -13,6 +13,7 @@ function App() {
       <header className="App-header">
         <Header contact={{ username: "XYZ" }} />
         <Post name={"First Post"}></Post>
+        <Tags />
         <Elem path="/cohorts" tagName="cohort_name"></Elem>
         <Elem path="/tags" tagName="tag_name"></Elem>
       </header>

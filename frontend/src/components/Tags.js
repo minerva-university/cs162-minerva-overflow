@@ -1,18 +1,23 @@
-import useSWR from "swr";
-
+import { useState, useEffect } from "react";
+import axios from "axios";
 function Tags() {
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
-  const api_url = "https://minerva-overflow.herokuapp.com/tags";
-  const { data, error } = useSWR(api_url, fetcher);
+  const [allTags, setAllTags] = useState([]);
 
-  if (error) {
-    console.log(error);
-    return <div>error</div>;
-  }
-  if (!data) return <div>loading...</div>;
+  useEffect(() => {
+    axios
+      .get("/api/tags")
+      .then((res) => setAllTags(res.data))
+      .catch((err) => console.log(err));
+  }, []);
 
-  // render data
-  return <div>hello {data}!</div>;
+  return (
+    <div>
+      {" "}
+      {allTags.map((tag) => (
+        <div> #{tag.tag_name}</div>
+      ))}
+    </div>
+  );
 }
 
 export default Tags;
