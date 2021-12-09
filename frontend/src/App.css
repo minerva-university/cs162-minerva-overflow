@@ -37,27 +37,6 @@
   }
 }
 
-.Post {
-  color: lightcoral;
-  border: 2px solid lightcoral;
-  font-size: 1em;
-  margin: 0.5em;
-  padding: 0.25em 1em;
-  border-radius: 3px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-}
-
-.Button {
-  color: limegreen;
-  border: 2px solid limegreen;
-  font-size: 0.6em;
-  margin: 0.5em;
-  padding: 0.25em 1em;
-  border-radius: 3px;
-}
-
 .TagContainer {
   border: 2px solid white;
   border-radius: 3px;
@@ -71,14 +50,11 @@
   flex-wrap: wrap;
 }
 
-.post_info {
-  width: 80%
-}
-
-.uparrow {
-  height: inherit;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.Tag {
+  color: limegreen;
+  border: 2px solid limegreen;
+  font-size: 0.6em;
+  margin: 0.5em;
+  padding: 0.25em 1em;
+  border-radius: 3px;
 }

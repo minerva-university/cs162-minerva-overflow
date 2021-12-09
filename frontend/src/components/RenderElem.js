@@ -10,7 +10,7 @@ function Elem(prop) {
       });
   }, []);
   console.log(elements);
-  const listItems = elements.map((e) => <p className="Button">{e}</p>);
+  const listItems = elements.map((e) => <p className="Tag">{e}</p>);
   return (
     <div className="TagContainer">
       <div>{prop.path}</div>

@@ -1,0 +1,41 @@
+
+.Post {
+    color: black;
+    background-color: #E8DBC4;
+    font-size: 1em;
+    margin: 0.5em;
+    padding: 0.25em 1em;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    text-align: left;
+  }
+  
+  .post_info {
+    width: 80%
+  }
+
+.vote {
+  flex-direction: column;
+  display: flex;
+}
+  
+  
+  .vote.on {
+    color: #f48024
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  Button {
+    width: 50%;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: none;
+  }

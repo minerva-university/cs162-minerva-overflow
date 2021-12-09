@@ -1,4 +1,7 @@
 import React from "react";
+import "./Post.css";
+import UPVOTE from "./images/upvote.png";
+import DOWNVOTE from "./images/downvote.png";
 
 function Post(props) {
   var mock_data = {
@@ -12,10 +15,16 @@ function Post(props) {
   return (
     <div className="Post">
       {/* <Card> */}
-      <div className="uparrow">
-        <button className="upvote-button">upvote</button>
-        <p>{mock_data.upvote}</p>
+      <div className="votes">
+      <button onClick="uparrow">
+      <img src={UPVOTE} alt="button" />
+      </button>
+      <p>{mock_data.upvote}</p>
+      <button onClick="downvote">
+      <img src={DOWNVOTE} alt="button" />
+      </button>
       </div>
+      
       <div className="post_info">
         <h4>{mock_data.title}</h4>
         <p>{mock_data.post_text}</p>
