@@ -14,6 +14,8 @@ function App() {
         <Elem path="/cohorts" tagName="cohort_name"></Elem>
         <Elem path="/tags" tagName="tag_name"></Elem>
         <Post name={"First Post"}></Post>
+        <Post name={"First Post"}></Post>
+        <Post name={"First Post"}></Post>
       </header>
     </div>
   );

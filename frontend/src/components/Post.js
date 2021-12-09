@@ -17,11 +17,11 @@ function Post(props) {
     <div className="Post">
       {/* <Card> */}
       <div className="votes">
-      <button onClick="uparrow">
+      <button className="Upvote_downvote_Button" onClick="uparrow">
       <img src={UPVOTE} alt="button" />
       </button>
       <p>{mock_data.upvote}</p>
-      <button onClick="downvote">
+      <button className="Upvote_downvote_Button" onClick="downvote">
       <img src={DOWNVOTE} alt="button" />
       </button>
       </div>

@@ -11,27 +11,27 @@
     gap: 10px;
   }
   
-.post_info {
-  width: 80%;
-  text-align: left;
-}
-
 .votes {
   flex-direction: column;
   display: flex;
-  vertical-align:middle;
+  align-items: center;
+  justify-content: center;
+}
+.post_info {
+  width: 80%;
+  text-align: left;
 }
   
 img {
   max-width: 100%;
 }
 
-Button {
+.Upvote_downvote_Button {
   width: 50%;
-  height: 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border: none;
+  padding: 0;
 }
