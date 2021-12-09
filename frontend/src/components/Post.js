@@ -9,6 +9,7 @@ function Post(props) {
     user_id: 1,
     city_id: 2,
     upvote: 31,
+    date: "2021/10/07",
     title: "Best Donuts in USA",
     post_text: "Bob's Donuts are so so great. I love them!",
   };
@@ -27,6 +28,7 @@ function Post(props) {
       
       <div className="post_info">
         <h4>{mock_data.title}</h4>
+        <p>{mock_data.post_date}</p>
         <p>{mock_data.post_text}</p>
         <p>Posted by {mock_data.name}</p>
       </div>

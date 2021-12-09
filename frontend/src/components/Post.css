@@ -9,33 +9,29 @@
     display: flex;
     flex-direction: row;
     gap: 10px;
-    text-align: left;
   }
   
-  .post_info {
-    width: 80%
-  }
+.post_info {
+  width: 80%;
+  text-align: left;
+}
 
-.vote {
+.votes {
   flex-direction: column;
   display: flex;
+  vertical-align:middle;
 }
   
-  
-  .vote.on {
-    color: #f48024
-  }
+img {
+  max-width: 100%;
+}
 
-  img {
-    max-width: 100%;
-  }
-
-  Button {
-    width: 50%;
-    height: 60px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: none;
-  }
+Button {
+  width: 50%;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
