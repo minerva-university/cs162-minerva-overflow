@@ -7,6 +7,8 @@ export default function Addposts(){
     }
     return (
         <main >
+            const result = React.useState()
+            console.log(result)
             <form className="form">
                 <input className="input"
                     type="text"
