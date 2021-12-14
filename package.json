@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "axios": "^0.24.0",
+    "react-select": "^5.2.1"
+  }
+}
