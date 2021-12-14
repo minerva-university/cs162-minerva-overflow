@@ -6,10 +6,12 @@ from application.extensions import db
 from application.api import api
 from application.config import Config
 from application.models import Post
+from flask_cors import CORS
 
 
 def create_app(config=Config) -> Flask:
     app = Flask(__name__)
+    CORS(app)
     app.config.from_object(config)
     app.app_context().push()
     db.init_app(app)

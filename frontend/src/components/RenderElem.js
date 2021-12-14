@@ -9,7 +9,6 @@ function Elem(prop) {
         setElements(data.map((obj) => obj[prop.tagName]));
       });
   }, []);
-  console.log(elements);
   const listItems = elements.map((e) => <p className="Button">{e}</p>);
   return (
     <div className="TagContainer">
