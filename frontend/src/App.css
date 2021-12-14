@@ -67,3 +67,33 @@
   flex-direction: row;
   flex-wrap: wrap;
 }
+
+
+.input {
+  width: 300px;
+  margin: 20px;
+  height: 60px;
+  margin-bottom: 5px;
+  position: relative;
+  vertical-align: top;
+}
+
+
+.add_post {
+  background-color: white;
+  padding: 5px;
+  margin: 15px;
+  position : relative;
+}
+
+.post_button {
+  background-color: lightgrey;
+  color : black;
+  border: none;
+  font: 'Poppins';
+  font-size: 15px;
+  font-weight:400;
+  position: relative;
+  right : -125px;
+  border-radius: 0px;
+}

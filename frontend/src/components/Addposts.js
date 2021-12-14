@@ -8,12 +8,20 @@ export default function Addposts(){
     return (
         <main >
             <form className="form">
-                <input className="input"
-                    type="text"
-                    placeholder="Share with Minervans!"
-                />
-                <button onClick={handleClick}>Add Post</button>
+                <div class="add_post">
+                    <div>
+                        <textarea className="input"
+                        type="text"
+                        placeholder="Share with Minervans">
+
+                        </textarea>
+                    </div>
+                    <div>
+                        <button class="post_button" onClick={handleClick}>Post</button>
+                    </div>
+                </div>
             </form>
+            
         </main>
     )
 }
