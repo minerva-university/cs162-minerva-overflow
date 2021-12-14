@@ -3,18 +3,16 @@ import axios from "axios";
 import "./Addposts.css"
 
 export default function Addposts(){
-    const [city_id, setCity] = React.useState('');
-    const [created_at, setCreate] = React.useState('');
+    const [city_id, setCity] = React.useState(1);
     const [edited, setEdit] = React.useState(false);
     const [post_text, setPost] = React.useState("")
     const [title, setTitle] = React.useState('');
     const [upvotes, setUpvote] = React.useState(0);
     const [user_id, setUser] = React.useState("");
-    const currDate = new Date().toLocaleDateString();
-    const currTime = new Date().toLocaleTimeString();
 
     function handleSubmit(e){
         e.preventDefault();
+        const created_at = new Date().toISOString();
         const submit = {
             city_id,
             created_at,
@@ -27,6 +25,7 @@ export default function Addposts(){
 
        
         axios.post("http://127.0.0.1:5000/posts",submit)
+            .then(() => {console.log("post add")})
             
         // fetch("http://127.0.0.1:5000/posts",{
         //     method:'POST',
@@ -59,8 +58,6 @@ export default function Addposts(){
                         required
                     />
                     <button className="post_button"
-                    value={currDate}
-                    onChange={(e)=>setCreate(e.target.value)}
                     >Add Post</button>
 
                     <select value={city_id} onChange={(e)=>setCity(e.target.value)}>
