@@ -7,12 +7,11 @@ function Login() {
   
     const onSubmitClick = (e)=>{
       e.preventDefault()
-      console.log("You pressed login")
       let opts = {
         'username': username,
         'password': password
       }
-      console.log(opts)
+      //console.log(opts)
       fetch('/api/login', {
         method: 'post',
         body: JSON.stringify(opts)
@@ -20,10 +19,10 @@ function Login() {
         .then(token => {
           if (token.access_token){
             login(token)
-            console.log(token)          
+            //console.log(token)          
           }
           else {
-            console.log("Please type in correct username/password")
+            //console.log("Please type in correct username/password")
           }
         })
     }
