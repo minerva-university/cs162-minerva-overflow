@@ -1,8 +1,13 @@
 from flask import Blueprint, request, abort, Response, jsonify
-
+import flask
 # import flask_whooshalchemy as wa
 from typing import List, Tuple
-from application.models import *
+from models import *
+from dataclasses import dataclass
+from  werkzeug.security import generate_password_hash, check_password_hash
+from extensions import guard, cors
+import flask_praetorian
+import flask_cors
 
 api = Blueprint("api", __name__)
 
@@ -233,3 +238,48 @@ def get_posts_by_cohort(cohort_id: int) -> List[Post]:
 
 # def query_search_posts(query: str) -> List[Post]:
 #     return Post.query.whoosh_search(query).all()
+
+
+@api.route('/api/login', methods=['POST'])
+def login():
+    """
+    Logs a user in by parsing a POST request containing user credentials and
+    issuing a JWT token.
+    .. example::
+       $ curl http://localhost:5000/api/login -X POST \
+         -d '{"username":"Yasoob","password":"strongpassword"}'
+    """
+    req = flask.request.get_json(force=True)
+    username = req.get('username', None)
+    password = req.get('password', None)
+    user = guard.authenticate(username, password)
+    ret = {'access_token': guard.encode_jwt_token(user)}
+    return ret, 200
+
+@api.route('/api/refresh', methods=['POST'])
+def refresh():
+    """
+    Refreshes an existing JWT by creating a new one that is a copy of the old
+    except that it has a refrehsed access expiration.
+    .. example::
+       $ curl http://localhost:5000/api/refresh -X GET \
+         -H "Authorization: Bearer <your_token>"
+    """
+    print("refresh request")
+    old_token = request.get_data()
+    new_token = guard.refresh_jwt_token(old_token)
+    ret = {'access_token': new_token}
+    return ret, 200
+  
+  
+@api.route('/api/protected')
+@flask_praetorian.auth_required
+def protected():
+    """
+    A protected endpoint. The auth_required decorator will require a header
+    containing a valid JWT
+    .. example::
+       $ curl http://localhost:5000/api/protected -X GET \
+         -H "Authorization: Bearer <your_token>"
+    """
+    return {'message': f'protected endpoint (allowed user {flask_praetorian.current_user().username})'}

@@ -2,17 +2,19 @@ from flask import Flask
 
 # import flask_whooshalchemy as wa
 
-from application.extensions import db
-from application.api import api
-from application.config import Config
-from application.models import Post
-
+from extensions import db, guard, cors
+from api import api
+from config import Config
+from models import Post
+from models import User
 
 def create_app(config=Config) -> Flask:
     app = Flask(__name__)
     app.config.from_object(config)
     app.app_context().push()
     db.init_app(app)
+    guard.init_app(app, User)
+    cors.init_app(app)
     app.register_blueprint(api)
     # wa.whoosh_index(app, Post)
     with app.app_context():
@@ -21,6 +23,7 @@ def create_app(config=Config) -> Flask:
     return app
 
 
+
 if __name__ == "__main__":
     app = create_app()
-    app.run()
+    app.run(debug=True)
