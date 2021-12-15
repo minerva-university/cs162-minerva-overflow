@@ -10,8 +10,8 @@ def test_create_user(client):
         "/api/users",
         json={
             "user": {
-                "user_name": "yaremko.nazar@uni.minerva.edu",
-                "user_password": "123",
+                "username": "yaremko.nazar@uni.minerva.edu",
+                "password": "123",
                 "first_name": "Nazar",
                 "surname": "Yaremko",
                 "email": "yaremko.nazar@uni.minerva.edu",
@@ -29,8 +29,8 @@ def test_create_wrong_user(client):
     rv = client.post(
         "/api/users",
         json={
-            "user_name": "ZheniaMagic",
-            "user_password": "Minerva",
+            "username": "ZheniaMagic",
+            "password": "Minerva",
             "first_name": "Evgeniia",
             "surname": "Buzulukova",
             "email": "evgeniia@uni.minerva.edu",
@@ -49,8 +49,8 @@ def test_unique_users(client):
         "/api/users",
         json={
             "user": {
-                "user_name": "evgeniia@uni.minerva.edu",
-                "user_password": "Minerva",
+                "username": "evgeniia@uni.minerva.edu",
+                "password": "Minerva",
                 "first_name": "Evgeniia",
                 "surname": "Buzulukova",
                 "email": "evgeniia@uni.minerva.edu",
