@@ -17,10 +17,11 @@ export default function Addposts() {
   }, []);
 
   function handleSubmit(e) {
+    const user_id = 1;
     const data = { post: { user_id, city_id, title, post_text } };
 
     axios
-      .post("http://127.0.0.1:5000/api/posts", data)
+      .post("/api/posts", data)
       .then(() => {
         console.log("post add");
       })
