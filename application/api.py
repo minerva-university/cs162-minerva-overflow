@@ -51,7 +51,14 @@ def add_user() -> Tuple[Response, int]:
     existing_email = User.query.filter_by(email=request.json["user"]["email"]).first()
     if existing_email:
         abort(403, "Email already exists")
-    user = User(**request.json["user"])
+    username=request.json["user"]["username"]
+    password=guard.hash_password(request.json["user"]["password"])
+    email=request.json["user"]["email"]
+    first_name=request.json["user"]["first_name"]
+    surname=request.json["user"]["surname"]
+    cohort_id=request.json["user"]["cohort_id"]
+    about_me=request.json["user"]["about_me"]
+    user = User(username=username,password=password,email=email, first_name=first_name, surname=surname,cohort_id=cohort_id,about_me=about_me)
     db.session.add(user)
     db.session.commit()
     return (
@@ -249,23 +256,23 @@ def get_posts_by_cohort(cohort_id: int) -> List[Post]:
 #     return Post.query.whoosh_search(query).all()
 
 
-@api.route('/api/login', methods=['POST'])
+@api.route("/api/login", methods=["POST"])
 def login():
     """
     Logs a user in by parsing a POST request containing user credentials and
     issuing a JWT token.
     .. example::
        $ curl http://localhost:5000/api/login -X POST \
-         -d '{"username":"Yasoob","password":"strongpassword"}'
+         -d "{"username":"Yasoob","password":"strongpassword"}"
     """
     req = flask.request.get_json(force=True)
-    username = req.get('username', None)
-    password = req.get('password', None)
+    username = req.get("username", None)
+    password = req.get("password", None)
     user = guard.authenticate(username, password)
-    ret = {'access_token': guard.encode_jwt_token(user)}
+    ret = {"access_token": guard.encode_jwt_token(user)}
     return ret, 200
 
-@api.route('/api/refresh', methods=['POST'])
+@api.route("/api/refresh", methods=["POST"])
 def refresh():
     """
     Refreshes an existing JWT by creating a new one that is a copy of the old
@@ -277,11 +284,11 @@ def refresh():
     print("refresh request")
     old_token = request.get_data()
     new_token = guard.refresh_jwt_token(old_token)
-    ret = {'access_token': new_token}
+    ret = {"access_token": new_token}
     return ret, 200
   
   
-@api.route('/api/protected')
+@api.route("/api/protected")
 @flask_praetorian.auth_required
 def protected():
     """
@@ -291,4 +298,4 @@ def protected():
        $ curl http://localhost:5000/api/protected -X GET \
          -H "Authorization: Bearer <your_token>"
     """
-    return {'message': f'protected endpoint (allowed user {flask_praetorian.current_user().username})'}
+    return {"message": f"protected endpoint (allowed user {flask_praetorian.current_user().username})"}

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {login, useAuth, logout} from "../auth"
 import {
-  Link
+  Link, 
+  useNavigate
 } from "react-router-dom";
+import Login from './Login';
 
 function Register() {
     const [username, setUsername] = useState('')
@@ -12,6 +14,7 @@ function Register() {
     const [surname, setSurname] = useState('')
     const [cohort_id, setCohort] = useState('')
     const [about_me, setAbout] = useState('')
+    let history = useNavigate();
 
     const onSubmitClick = (e)=>{
       e.preventDefault()
@@ -30,48 +33,39 @@ function Register() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(opts)
       }).then(response => response.json())
-      .then(responseJson => {
-          console.log(responseJson)
-      }, [])
+      .then(responseJson => {if (responseJson.status==='SUCCESS') {
+            history("/login")
+        }
+      })
     }
 
-    const checkUsers = (e)=>{
-        e.preventDefault()
-        fetch('/api/users', {
-          method: 'get'
-        }).then(response => response.json())
-          .then(responseJson => {
-              console.log(responseJson)
-          })
-        }
+    const handleUsernameChange = (e) => {
+        setUsername(e.target.value)
+    }
 
-        const handleUsernameChange = (e) => {
-            setUsername(e.target.value)
-        }
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value)
+    }
 
-        const handlePasswordChange = (e) => {
-            setPassword(e.target.value)
-        }
+    const handleFirstnameChange = (e) => {
+        setFirstname(e.target.value)
+    }
 
-        const handleFirstnameChange = (e) => {
-            setFirstname(e.target.value)
-        }
+    const handleSurnameChange = (e) => {
+        setSurname(e.target.value)
+    }
 
-        const handleSurnameChange = (e) => {
-            setSurname(e.target.value)
-        }
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value)
+    }
 
-        const handleEmailChange = (e) => {
-            setEmail(e.target.value)
-        }
+    const handleCohortChange = (e) => {
+        setCohort(e.target.value)
+    }
 
-        const handleCohortChange = (e) => {
-            setCohort(e.target.value)
-        }
-
-        const handleAboutChange = (e) => {
-            setAbout(e.target.value)
-        }
+    const handleAboutChange = (e) => {
+        setAbout(e.target.value)
+    }
 
     const [logged] = useAuth();
     return (
@@ -129,9 +123,6 @@ function Register() {
           </div>
           <button onClick={onSubmitClick} type="submit">
             Register
-          </button>
-          <button onClick={checkUsers} type="submit">
-            Check
           </button>
         </form>
         : <button onClick={() => logout()}>Logout</button>}

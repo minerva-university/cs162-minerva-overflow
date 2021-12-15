@@ -4,9 +4,10 @@ import Login from './Login';
 function Home() {
     
     const [logged] = [useAuth()];
-
+    
+    
     if(!logged[0]) {
-      return <Login/>
+      setTimeout(() => {  return <Login/>; }, 500);
     }
   
     return (

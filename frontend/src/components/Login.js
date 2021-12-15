@@ -29,6 +29,13 @@ function Login() {
           }
         })
     }
+
+    const check = (e)=>{
+      e.preventDefault()
+      //console.log(opts)
+      fetch('/api/users', {
+        method: 'get'
+      }).then(r => r.json()).then(rJSON => console.log(rJSON))}
     
     const handleUsernameChange = (e) => {
       setUsername(e.target.value)
@@ -60,6 +67,9 @@ function Login() {
           </div>
           <button onClick={onSubmitClick} type="submit">
             Login Now
+          </button>
+          <button onClick={check} type="submit">
+            check
           </button>
           <div>
             <h3> Don't have an account? Create one!</h3>
