@@ -12,7 +12,7 @@ function Dashboard() {
     const [logged] = [useAuth()];
 
     if(!logged[0]) {
-      setTimeout(() => {  return <Login/>; }, 500);
+      return <Login/>
     }
 
     return (

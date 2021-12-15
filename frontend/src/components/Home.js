@@ -4,12 +4,11 @@ import Login from './Login';
 function Home() {
     
     const [logged] = [useAuth()];
-    
-    
+
     if(!logged[0]) {
-      setTimeout(() => {  return <Login/>; }, 500);
+      return <Login/>
     }
-  
+
     return (
       <div className="Home">
         <p> This is your home!</p>

@@ -48,6 +48,7 @@ function Login() {
     const [logged] = useAuth();
     return (
       <div className='Login'>
+        <h2> In order to see the posts or access your homepage, please log in or register:)</h2>
         <h2>Login</h2>
         {!logged? <form action="#">
           <div>
