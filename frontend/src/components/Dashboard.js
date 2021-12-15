@@ -3,6 +3,7 @@ import Header from "./Header.js";
 import Post from "./Post.js";
 import Elem from "./RenderElem.js";
 import Tags from "./Tags.js";
+import Addposts from "./Addposts.js";
 
 function Dashboard() {
   
@@ -19,6 +20,7 @@ function Dashboard() {
           <Header contact={{ username: "XYZ" }} />
           <Post name={"First Post"}></Post>
           <Tags />
+          <Addposts />
           <Elem path="/cohorts" tagName="cohort_name"></Elem>
           <Elem path="/tags" tagName="tag_name"></Elem>
         </header>
