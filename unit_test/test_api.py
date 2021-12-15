@@ -1,13 +1,13 @@
 def test_initialize_server(client):
     """test that server is running"""
-    rv = client.get("/")
+    rv = client.get("/api/")
     assert rv.data == b"Server is running"
 
 
 def test_create_user(client):
     """test that we can create a new user"""
     rv = client.post(
-        "/users",
+        "/api/users",
         json={
             "user": {
                 "user_name": "yaremko.nazar@uni.minerva.edu",
@@ -27,7 +27,7 @@ def test_create_user(client):
 def test_create_wrong_user(client):
     """test that if the json is of the wrong format or doesn't exist, it will return a 400 error"""
     rv = client.post(
-        "/users",
+        "/api/users",
         json={
             "user_name": "ZheniaMagic",
             "user_password": "Minerva",
@@ -39,14 +39,14 @@ def test_create_wrong_user(client):
         },
     )
     assert rv.status_code == 400
-    rv = client.post("/users", json={})
+    rv = client.post("/api/users", json={})
     assert rv.status_code == 400
 
 
 def test_unique_users(client):
     """test that if the user already exists, it will return a 403 error"""
     rv = client.post(
-        "/users",
+        "/api/users",
         json={
             "user": {
                 "user_name": "evgeniia@uni.minerva.edu",
@@ -64,7 +64,7 @@ def test_unique_users(client):
 
 def test_get_specific_user(client):
     """test that we can get a user by their id"""
-    rv = client.get("/users/2")
+    rv = client.get("/api/users/2")
     assert rv.status_code == 201
     assert "Ha" in str(rv.data)
     assert "Tran" in str(rv.data)
@@ -73,7 +73,7 @@ def test_get_specific_user(client):
 def test_create_post(client):
     """test that we can create a new post"""
     rv = client.post(
-        "/posts",
+        "/api/posts",
         json={
             "post": {"user_id": 1, "city_id": 1, "title": "Hi", "post_text": "hello"}
         },
@@ -85,17 +85,17 @@ def test_create_post(client):
 def test_create_wrong_post(client):
     """test that if the json is of the wrong format or doesn't exist, it will return a 400 error"""
     rv = client.post(
-        "/posts",
+        "/api/posts",
         json={"user_id": 1, "city_id": 1, "title": "Hi", "post_text": "hello"},
     )
     assert rv.status_code == 400
-    rv = client.post("/posts", json={})
+    rv = client.post("/api/posts", json={})
     assert rv.status_code == 400
 
 
 def test_get_all_posts(client):
     """test that we can get all posts"""
-    rv = client.get("/posts")
+    rv = client.get("/api/posts")
     assert rv.status_code == 201
     assert "Best Donuts in USA" in str(rv.data)
     assert "AWS Loft" in str(rv.data)
@@ -103,7 +103,7 @@ def test_get_all_posts(client):
 
 def test_get_specific_post(client):
     """test that we edit a post"""
-    rv = client.get("/posts/2")
+    rv = client.get("/api/posts/2")
     assert rv.status_code == 201
     assert "AWS Loft" in str(rv.data)
 
@@ -111,7 +111,7 @@ def test_get_specific_post(client):
 def test_edit_specific_post(client):
     """test that we edit a post"""
     rv = client.put(
-        "/posts/1",
+        "/api/posts/1",
         json={
             "post": {
                 "user_id": 2,
@@ -129,7 +129,7 @@ def test_edit_specific_post(client):
 def test_delete_specific_post(client):
     """test that we edit a post"""
     rv = client.delete(
-        "/posts/1",
+        "/api/posts/1",
     )
     assert rv.status_code == 201
     assert "Post 1 deleted successfully" in str(rv.data)
@@ -137,7 +137,7 @@ def test_delete_specific_post(client):
 
 def test_get_tags(client):
     """test that the tags we already have exist"""
-    rv = client.get("/tags")
+    rv = client.get("/api/tags")
     assert rv.status_code == 201
     assert "Food & Drinks" in str(rv.data)
     assert "City Set-Up" in str(rv.data)
@@ -146,7 +146,7 @@ def test_get_tags(client):
 def test_create_tag(client):
     """test that we can create a new tag"""
     rv = client.post(
-        "/tags",
+        "/api/tags",
         json={"tag": {"tag_name": "Biking"}},
     )
     assert rv.status_code == 201
@@ -156,24 +156,24 @@ def test_create_tag(client):
 def test_create_wrong_tag(client):
     """test that if the json is of the wrong format or doesn't exist, it will return a 400 error"""
     rv = client.post(
-        "/tags",
+        "/api/tags",
         json={"tag_name": "Biking"},
     )
     assert rv.status_code == 400
-    rv = client.post("/tags", json={})
+    rv = client.post("/api/tags", json={})
     assert rv.status_code == 400
 
 
 def test_get_cities(client):
     """test that the cities we already have are returned"""
-    rv = client.get("/cities")
+    rv = client.get("/api/cities")
     assert rv.status_code == 201
     assert "Berlin" in str(rv.data)
     assert "San Francisco" in str(rv.data)
 
 
 def test_get_cohorts(client):
-    rv = client.get("/cohorts")
+    rv = client.get("/api/cohorts")
     assert rv.status_code == 201
     assert (
         "M19" in str(rv.data)
