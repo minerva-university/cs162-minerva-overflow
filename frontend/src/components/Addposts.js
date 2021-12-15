@@ -1,82 +1,83 @@
-import React from "react"
-import axios from "axios"
-import { useNavigate } from 'react-router-dom'
-import "./Addposts.css"
+import React from "react";
+import axios from "axios";
+import "./Addposts.css";
 
-export default function Addposts(){
-    const [city_id, setCity] = React.useState(1);
-    const [edited, setEdit] = React.useState(false);
-    const [post_text, setPost] = React.useState("")
-    const [title, setTitle] = React.useState('');
-    const [upvotes, setUpvote] = React.useState(0);
-    const [user_id, setUser] = React.useState("");
-    const [allCities, setAllCities] = React.useState([]);
-    const history = useNavigate()
+export default function Addposts() {
+  const [city_id, setCity] = React.useState(1);
+  const [edited, setEdit] = React.useState(false);
+  const [post_text, setPost] = React.useState("");
+  const [title, setTitle] = React.useState("");
+  const [upvotes, setUpvote] = React.useState(0);
+  const [user_id, setUser] = React.useState("");
 
-    React.useEffect(() => {
-      axios
-        .get("/api/cities")
-        .then((res) => setAllCities(res.data))
-        .catch((err) => console.log(err));
-    }, []);
+  const [allCities, setAllCities] = React.useState([]);
 
-    function handleSubmit(e){
-        const created_at = new Date().toISOString();
-        const submit={"post": 
-        {
-            user_id, 
-            city_id,
-            title,
-            post_text}};
+  React.useEffect(() => {
+    axios
+      .get("/api/cities")
+      .then((res) => setAllCities(res.data))
+      .catch((err) => console.log(err));
+  }, []);
 
-       
-        axios.post("http://127.0.0.1:5000/api/posts",submit)
-            .then(() => {console.log("post add")})
-        
-        history("/")
-            
-        // fetch("http://127.0.0.1:5000/posts",{
-        //     method:'POST',
-        //     headers: {"Content-Type": "application/json"},
-        //     body: JSON.stringify(submit)
-        // }).then(() => {
-        //     console.log('new post added')
-        //     console.log(submit)
-        // })
-    }
+  function handleSubmit(e) {
+    e.preventDefault();
+    const created_at = new Date().toISOString();
+    const submit = {
+      city_id,
+      created_at,
+      edited,
+      post_text,
+      title,
+      upvotes,
+      user_id,
+    };
 
+    axios.post("http://127.0.0.1:5000/api/posts", submit).then(() => {
+      console.log("post add");
+    });
 
-    return (
-        <main >
-            <form className="form" onSubmit={handleSubmit}>
-                <div className="add_post">
-                    <input className="title"
-                        type="text"
-                        placeholder="Add title"
-                        value={title}
-                        onChange={(e)=>setTitle(e.target.value)}
-                        required
-                    />
+    // fetch("http://127.0.0.1:5000/posts",{
+    //     method:'POST',
+    //     headers: {"Content-Type": "application/json"},
+    //     body: JSON.stringify(submit)
+    // }).then(() => {
+    //     console.log('new post added')
+    //     console.log(submit)
+    // })
+  }
 
-                    <input className="input"
-                        type="text"
-                        placeholder="What do you want to share with Minervans?"
-                        value={post_text}
-                        onChange={(e)=>setPost(e.target.value)}
-                        required
-                    />
+  return (
+    <main>
+      <form className="form" onClick={handleSubmit}>
+        <div className="add_post">
+          <input
+            className="title"
+            type="text"
+            placeholder="Add title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
 
-            <select value={city_id} onChange={(e) => setCity(e.target.value)}>
-                {allCities.map((city) => (
-                <option value={city.city_id}>{city.city_name}</option>
-                ))}
-            </select>
+          <input
+            className="input"
+            type="text"
+            placeholder="What do you want to share with Minervans?"
+            value={post_text}
+            onChange={(e) => setPost(e.target.value)}
+            required
+          />
 
-                    <button className="post_button" type="submit"
-                    >Add Post</button>
+          {/* axios.map */}
+          <select value={city_id} onChange={(e) => setCity(e.target.value)}>
+            {allCities.map((city) => (
+              <option value={city.city_id}>{city.city_name}</option>
+            ))}
+          </select>
 
-                </div>
-            </form>
-        </main>
-    )
+          <button className="post_button">Add Post</button>
+        </div>
+      </form>
+    </main>
+  );
 }
