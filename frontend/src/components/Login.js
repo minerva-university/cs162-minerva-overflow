@@ -1,51 +1,54 @@
 import React, { useEffect, useState } from "react";
-import {login, useAuth, logout} from "../auth"
+import { login, useAuth, logout } from "../auth";
+import "./style/Login.css";
 
 function Login() {
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-  
-    const onSubmitClick = (e)=>{
-      e.preventDefault()
-      let opts = {
-        'username': username,
-        'password': password
-      }
-      //console.log(opts)
-      fetch('/api/login', {
-        method: 'post',
-        body: JSON.stringify(opts)
-      }).then(r => r.json())
-        .then(token => {
-          if (token.access_token){
-            login(token)
-            //console.log(token)          
-          }
-          else {
-            //console.log("Please type in correct username/password")
-          }
-        })
-    }
-  
-    const handleUsernameChange = (e) => {
-      setUsername(e.target.value)
-    }
-  
-    const handlePasswordChange = (e) => {
-      setPassword(e.target.value)
-    }
-  
-    const [logged] = useAuth();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-    return (
-      <div className='Login'>
-        <h2>Login</h2>
-        {!logged? <form action="#">
+  const onSubmitClick = (e) => {
+    e.preventDefault();
+    let opts = {
+      username: username,
+      password: password,
+    };
+    //console.log(opts)
+    fetch("/api/login", {
+      method: "post",
+      body: JSON.stringify(opts),
+    })
+      .then((r) => r.json())
+      .then((token) => {
+        if (token.access_token) {
+          login(token);
+          //console.log(token)
+        } else {
+          //console.log("Please type in correct username/password")
+        }
+      });
+  };
+
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const [logged] = useAuth();
+
+  return (
+    <div className="Login">
+      <h2>Login</h2>
+      {!logged ? (
+        <form action="#">
           <div>
-            <input type="text" 
-              placeholder="Username" 
+            <input
+              type="text"
+              placeholder="Username"
               onChange={handleUsernameChange}
-              value={username} 
+              value={username}
             />
           </div>
           <div>
@@ -60,9 +63,11 @@ function Login() {
             Login Now
           </button>
         </form>
-        : <button onClick={() => logout()}>Logout</button>}
-      </div>
-    )
-  }
+      ) : (
+        <button onClick={() => logout()}>Logout</button>
+      )}
+    </div>
+  );
+}
 
-export default Login
+export default Login;

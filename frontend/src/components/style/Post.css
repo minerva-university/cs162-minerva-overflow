@@ -1,0 +1,19 @@
+.Post {
+    background-color: #D2DAD8;
+    color: #37312F;
+    border: 5px;
+    border-color: black;
+    margin-top: 0px;
+    margin-bottom: 15px;
+    padding: 0.25em 1em;
+    border-radius: 3px;
+    width : 700px;
+  }
+
+  .post_text {
+    font-size: x-large;
+  }
+
+  .name {
+    font-size: medium;
+  }

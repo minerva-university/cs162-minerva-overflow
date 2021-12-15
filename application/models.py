@@ -229,6 +229,17 @@ class User(db.Model):
     def is_valid(self):
         return self.is_active
 
+    @classmethod
+    def identify(cls, id):
+        return cls.query.get(id)
+
+    @property
+    def identity(self):
+        return self.user_id
+
+    def is_valid(self):
+        return self.is_active
+
 
 @dataclass
 class City(db.Model):

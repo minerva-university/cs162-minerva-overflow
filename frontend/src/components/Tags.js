@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import "./style/Tags.css";
+
 function Tags() {
   const [allTags, setAllTags] = useState([]);
 
