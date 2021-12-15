@@ -1,13 +1,11 @@
 from flask import Blueprint, request, abort, Response, jsonify
 import flask
+
 # import flask_whooshalchemy as wa
 from typing import List, Tuple
-from models import *
-from dataclasses import dataclass
-from  werkzeug.security import generate_password_hash, check_password_hash
-from extensions import guard, cors
+from application.models import *
+from application.extensions import guard
 import flask_praetorian
-import flask_cors
 
 api = Blueprint("api", __name__)
 
@@ -44,7 +42,7 @@ def add_user() -> Tuple[Response, int]:
     if not request.json or not "user" in request.json:
         abort(400, "Request form incorrect")
     existing_user = User.query.filter_by(
-        user_name=request.json["user"]["user_name"]
+        username=request.json["user"]["username"]
     ).first()
     if existing_user:
         abort(403, "Username already exists")
@@ -240,7 +238,7 @@ def get_posts_by_cohort(cohort_id: int) -> List[Post]:
 #     return Post.query.whoosh_search(query).all()
 
 
-@api.route('/api/login', methods=['POST'])
+@api.route("/api/login", methods=["POST"])
 def login():
     """
     Logs a user in by parsing a POST request containing user credentials and
@@ -250,13 +248,14 @@ def login():
          -d '{"username":"Yasoob","password":"strongpassword"}'
     """
     req = flask.request.get_json(force=True)
-    username = req.get('username', None)
-    password = req.get('password', None)
+    username = req.get("username", None)
+    password = req.get("password", None)
     user = guard.authenticate(username, password)
-    ret = {'access_token': guard.encode_jwt_token(user)}
+    ret = {"access_token": guard.encode_jwt_token(user)}
     return ret, 200
 
-@api.route('/api/refresh', methods=['POST'])
+
+@api.route("/api/refresh", methods=["POST"])
 def refresh():
     """
     Refreshes an existing JWT by creating a new one that is a copy of the old
@@ -268,11 +267,11 @@ def refresh():
     print("refresh request")
     old_token = request.get_data()
     new_token = guard.refresh_jwt_token(old_token)
-    ret = {'access_token': new_token}
+    ret = {"access_token": new_token}
     return ret, 200
-  
-  
-@api.route('/api/protected')
+
+
+@api.route("/api/protected")
 @flask_praetorian.auth_required
 def protected():
     """
@@ -282,4 +281,6 @@ def protected():
        $ curl http://localhost:5000/api/protected -X GET \
          -H "Authorization: Bearer <your_token>"
     """
-    return {'message': f'protected endpoint (allowed user {flask_praetorian.current_user().username})'}
+    return {
+        "message": f"protected endpoint (allowed user {flask_praetorian.current_user().username})"
+    }
