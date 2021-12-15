@@ -24,7 +24,7 @@ export default function Addposts(){
         };
 
        
-        axios.post("http://127.0.0.1:5000/posts",submit)
+        axios.post("http://127.0.0.1:5000/api/posts",submit)
             .then(() => {console.log("post add")})
             
         // fetch("http://127.0.0.1:5000/posts",{
@@ -60,6 +60,7 @@ export default function Addposts(){
                     <button className="post_button"
                     >Add Post</button>
 
+                    {/* axios.map */}
                     <select value={city_id} onChange={(e)=>setCity(e.target.value)}>
                         <option value="1">San Francisco</option>
                         <option value="2">Seoul</option>

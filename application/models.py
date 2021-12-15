@@ -4,7 +4,7 @@ from sqlalchemy.sql.schema import Table
 from sqlalchemy.engine.base import Connection
 from dataclasses import dataclass
 
-from application.extensions import db
+from application.extensions import db, guard
 
 
 """ 
@@ -138,8 +138,8 @@ class User(db.Model):
     """
     Table for users
      :param user_id: unique user id
-     :param user_name: username of the particular user
-     :param user_password: password of a particular user (no encryption is used as of now)
+     :param username: username of the particular user
+     :param password: password of a particular user (no encryption is used as of now)
      :param fisrt_name: first name of the user
      :param surname: surname of the user
      :param email: user's email address
@@ -153,20 +153,20 @@ class User(db.Model):
 
     # adding specification to create json object
     user_id: int
-    user_name: str
-    user_password: str
+    username: str
+    password: str
     first_name: str
     surname: str
     email: str
     cohort_id: int
     about_me: str
     access_privilege: bool
-
+    is_active: bool
     __tablename__ = "users"
 
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_name = db.Column(db.String(20), nullable=False, unique=True)
-    user_password = db.Column(db.String(20), nullable=False)
+    username = db.Column(db.String(20), nullable=False, unique=True)
+    password = db.Column(db.String(20), nullable=False)
     first_name = db.Column(db.String(), nullable=False)
     surname = db.Column(db.String(), nullable=False)
     email = db.Column(db.String(), nullable=False, unique=True)
@@ -175,6 +175,7 @@ class User(db.Model):
     )
     about_me = db.Column(db.String(), nullable=False)
     access_privilege = db.Column(db.Boolean, nullable=False, default=0)
+    is_active = db.Column(db.Boolean, default=True, server_default="true")
     posts = db.relationship("Post", backref="users", lazy="subquery")
     comments = db.relationship("Comment", backref="users", lazy=True)
     user_favorite_posts = db.relationship(
@@ -186,23 +187,47 @@ class User(db.Model):
 
     def __init__(
         self,
-        user_name: str,
-        user_password: str,
+        username: str,
+        password: str,
         first_name: str,
         surname: str,
         email: str,
         cohort_id: int,
         about_me: str,
         access_privilege: bool = 0,
+        is_active: bool = 1,
     ):
-        self.user_name = user_name
-        self.user_password = user_password
+        self.username = username
+        self.password = password
         self.first_name = first_name
         self.surname = surname
         self.email = email
         self.cohort_id = cohort_id
         self.about_me = about_me
         self.access_privilege = access_privilege
+        self.is_active = is_active
+
+    @property
+    def rolenames(self):
+        try:
+            return self.roles.split(",")
+        except Exception:
+            return []
+
+    @classmethod
+    def lookup(cls, username):
+        return cls.query.filter_by(username=username).one_or_none()
+
+    @classmethod
+    def identify(cls, id):
+        return cls.query.get(id)
+
+    @property
+    def identity(self):
+        return self.user_id
+
+    def is_valid(self):
+        return self.is_active
 
 
 @dataclass
@@ -339,8 +364,8 @@ def insert_initial_tags(target: Table, connection: Connection, **kw):
 
 def insert_initial_users(target: Table, connection: Connection, **kw):
     user1 = User(
-        user_name="ZheniaMagic",
-        user_password="Minerva",
+        username="ZheniaMagic",
+        password=guard.hash_password("Minerva"),
         first_name="Evgeniia",
         surname="Buzulukova",
         email="evgeniia@uni.minerva.edu",
@@ -349,8 +374,8 @@ def insert_initial_users(target: Table, connection: Connection, **kw):
     )
 
     user2 = User(
-        user_name="sherlockieee",
-        user_password="123",
+        username="sherlockieee",
+        password=guard.hash_password("123"),
         first_name="Ha",
         surname="Tran",
         email="tnp_ha@uni.minerva.edu",

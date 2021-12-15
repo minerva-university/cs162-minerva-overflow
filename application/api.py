@@ -1,25 +1,33 @@
 from flask import Blueprint, request, abort, Response, jsonify
+import flask
 
 # import flask_whooshalchemy as wa
 from typing import List, Tuple
 from application.models import *
+from application.extensions import guard
+import flask_praetorian
 
 api = Blueprint("api", __name__)
 
 
 @api.route("/")
+def hello_world():
+    return "Hello world"
+
+
+@api.route("/api/")
 def index():
     return "Server is running"
 
 
-@api.route("/users", methods=["GET"])
+@api.route("/api/users", methods=["GET"])
 def get_users() -> Tuple[Response, int]:
     """Function to get all users from the database"""
     users = User.query.all()
     return (jsonify(users), 201)
 
 
-@api.route("/users/<int:user_id>", methods=["GET"])
+@api.route("/api/users/<int:user_id>", methods=["GET"])
 def get_user(user_id: int) -> Tuple[Response, int]:
     """Function to get post from its id in the database"""
     user = User.query.filter_by(user_id=int(user_id)).first()
@@ -28,13 +36,13 @@ def get_user(user_id: int) -> Tuple[Response, int]:
     return (jsonify(user), 201)
 
 
-@api.route("/users", methods=["POST"])
+@api.route("/api/users", methods=["POST"])
 def add_user() -> Tuple[Response, int]:
     """Function to add a new user to the database"""
     if not request.json or not "user" in request.json:
         abort(400, "Request form incorrect")
     existing_user = User.query.filter_by(
-        user_name=request.json["user"]["user_name"]
+        username=request.json["user"]["username"]
     ).first()
     if existing_user:
         abort(403, "Username already exists")
@@ -52,14 +60,14 @@ def add_user() -> Tuple[Response, int]:
     )
 
 
-@api.route("/posts", methods=["GET"])
+@api.route("/api/posts", methods=["GET"])
 def get_all_posts() -> Tuple[Response, int]:
     """Function to get all posts from the database"""
     posts = Post.query.all()
     return (jsonify(posts), 201)
 
 
-@api.route("/posts", methods=["POST"])
+@api.route("/api/posts", methods=["POST"])
 def add_post() -> Tuple[Response, int]:
     """Function to add a new post to the database"""
     if not request.json or not "post" in request.json:
@@ -75,7 +83,7 @@ def add_post() -> Tuple[Response, int]:
     )
 
 
-@api.route("/posts/<int:post_id>", methods=["GET"])
+@api.route("/api/posts/<int:post_id>", methods=["GET"])
 def get_post(post_id: int) -> Tuple[Response, int]:
     """Function to get post from its id in the database"""
     post = Post.query.filter_by(post_id=int(post_id)).first()
@@ -84,7 +92,7 @@ def get_post(post_id: int) -> Tuple[Response, int]:
     return (jsonify(post), 201)
 
 
-@api.route("/posts/<int:post_id>", methods=["PUT"])
+@api.route("/api/posts/<int:post_id>", methods=["PUT"])
 def edit_post(post_id: int) -> Tuple[Response, int]:
     """Function to edit post in the database"""
     post = Post.query.filter_by(post_id=int(post_id)).first()
@@ -103,7 +111,7 @@ def edit_post(post_id: int) -> Tuple[Response, int]:
     )
 
 
-@api.route("/posts/<int:post_id>", methods=["DELETE"])
+@api.route("/api/posts/<int:post_id>", methods=["DELETE"])
 def delete_post(post_id: int) -> Tuple[Response, int]:
     """Function to delete post in the database"""
     post = Post.query.filter_by(post_id=int(post_id)).first()
@@ -117,14 +125,14 @@ def delete_post(post_id: int) -> Tuple[Response, int]:
     )
 
 
-@api.route("/tags", methods=["GET"])
+@api.route("/api/tags", methods=["GET"])
 def get_tags() -> Tuple[Response, int]:
     """Function to get all tags from the database"""
     tags = Tag.query.all()
     return (jsonify(tags), 201)
 
 
-@api.route("/tags", methods=["POST"])
+@api.route("/api/tags", methods=["POST"])
 def add_tag() -> Tuple[Response, int]:
     """Function to add a new tag to the database"""
     if not request.json or not "tag" in request.json:
@@ -138,7 +146,7 @@ def add_tag() -> Tuple[Response, int]:
     )
 
 
-@api.route("/posts/<int:post_id>/tags/<int:tag_id>", methods=["POST"])
+@api.route("/api/posts/<int:post_id>/tags/<int:tag_id>", methods=["POST"])
 def add_tag_to_post(tag_id: int, post_id: int) -> Tuple[Response, int]:
     """Function to add tag to the post in the database"""
     db.session.execute(tags_and_posts.insert().values(tag_id=tag_id, post_id=post_id))
@@ -155,7 +163,7 @@ def add_tag_to_post(tag_id: int, post_id: int) -> Tuple[Response, int]:
 
 
 '''
-@api.route("/posts/<post_id>", methods=["POST"])
+@api.route("/api/posts/<post_id>", methods=["POST"])
 def upvote_post(post_id: int) -> Response:
     """Function to upvote post"""
     post = Post.query.filter_by(post_id=int(post_id)).first()
@@ -166,14 +174,14 @@ def upvote_post(post_id: int) -> Response:
 '''
 
 
-@api.route("/cohorts", methods=["GET"])
+@api.route("/api/cohorts", methods=["GET"])
 def get_cohorts() -> Tuple[Response, int]:
     """Get all cohorts in database"""
     cohorts = Cohort.query.all()
     return (jsonify(cohorts), 201)
 
 
-@api.route("/cities", methods=["GET"])
+@api.route("/api/cities", methods=["GET"])
 def get_cities() -> Tuple[Response, int]:
     """Get all cities in database"""
     cities = City.query.all()
@@ -228,3 +236,51 @@ def get_posts_by_cohort(cohort_id: int) -> List[Post]:
 
 # def query_search_posts(query: str) -> List[Post]:
 #     return Post.query.whoosh_search(query).all()
+
+
+@api.route("/api/login", methods=["POST"])
+def login():
+    """
+    Logs a user in by parsing a POST request containing user credentials and
+    issuing a JWT token.
+    .. example::
+       $ curl http://localhost:5000/api/login -X POST \
+         -d '{"username":"Yasoob","password":"strongpassword"}'
+    """
+    req = flask.request.get_json(force=True)
+    username = req.get("username", None)
+    password = req.get("password", None)
+    user = guard.authenticate(username, password)
+    ret = {"access_token": guard.encode_jwt_token(user)}
+    return ret, 200
+
+
+@api.route("/api/refresh", methods=["POST"])
+def refresh():
+    """
+    Refreshes an existing JWT by creating a new one that is a copy of the old
+    except that it has a refrehsed access expiration.
+    .. example::
+       $ curl http://localhost:5000/api/refresh -X GET \
+         -H "Authorization: Bearer <your_token>"
+    """
+    print("refresh request")
+    old_token = request.get_data()
+    new_token = guard.refresh_jwt_token(old_token)
+    ret = {"access_token": new_token}
+    return ret, 200
+
+
+@api.route("/api/protected")
+@flask_praetorian.auth_required
+def protected():
+    """
+    A protected endpoint. The auth_required decorator will require a header
+    containing a valid JWT
+    .. example::
+       $ curl http://localhost:5000/api/protected -X GET \
+         -H "Authorization: Bearer <your_token>"
+    """
+    return {
+        "message": f"protected endpoint (allowed user {flask_praetorian.current_user().username})"
+    }

@@ -67,3 +67,46 @@
   flex-direction: row;
   flex-wrap: wrap;
 }
+
+.wrapper {
+  padding: 20px;
+}
+
+
+.navbar-top {
+  display: grid;
+  background-color: azure;
+  grid-template-columns: repeat(9, 1fr);
+  position:fixed;
+  width: 100%;
+  z-index:1;
+}
+
+#title-nav {
+  grid-column: 1/3;
+  padding: 10px;
+  width: 300px;
+}
+
+#dashboard-nav {
+  grid-column: 6;
+  padding: 10px;
+}
+
+#home-nav{
+  grid-column: 7;
+  padding: 10px;
+}
+
+#login-nav {
+  grid-column: 8;
+  padding: 10px;
+}
+
+.Dashboard, .Home, .Login{
+  margin-top: 10%;
+}
+
+.navbar-top {
+  margin-top: -10%;
+}
