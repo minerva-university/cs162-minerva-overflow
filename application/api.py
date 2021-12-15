@@ -42,7 +42,7 @@ def add_user() -> Tuple[Response, int]:
     if not request.json or not "user" in request.json:
         abort(400, "Request form incorrect")
     existing_user = User.query.filter_by(
-        user_name=request.json["user"]["user_name"]
+        username=request.json["user"]["username"]
     ).first()
     if existing_user:
         abort(403, "Username already exists")
