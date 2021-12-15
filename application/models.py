@@ -3,8 +3,8 @@ from sqlalchemy import event
 from sqlalchemy.sql.schema import Table
 from sqlalchemy.engine.base import Connection
 from dataclasses import dataclass
-from  werkzeug.security import generate_password_hash, check_password_hash
-from extensions import db, guard
+
+from application.extensions import db, guard
 
 
 """ 
@@ -175,7 +175,7 @@ class User(db.Model):
     )
     about_me = db.Column(db.String(), nullable=False)
     access_privilege = db.Column(db.Boolean, nullable=False, default=0)
-    is_active = db.Column(db.Boolean, default=True, server_default='true')
+    is_active = db.Column(db.Boolean, default=True, server_default="true")
     posts = db.relationship("Post", backref="users", lazy="subquery")
     comments = db.relationship("Comment", backref="users", lazy=True)
     user_favorite_posts = db.relationship(
@@ -210,7 +210,7 @@ class User(db.Model):
     @property
     def rolenames(self):
         try:
-            return self.roles.split(',')
+            return self.roles.split(",")
         except Exception:
             return []
 
@@ -228,6 +228,7 @@ class User(db.Model):
 
     def is_valid(self):
         return self.is_active
+
 
 @dataclass
 class City(db.Model):
@@ -359,6 +360,7 @@ def insert_initial_tags(target: Table, connection: Connection, **kw):
         "Financial",
     ]:
         connection.execute(target.insert(), {"tag_name": tag})
+
 
 def insert_initial_users(target: Table, connection: Connection, **kw):
     user1 = User(

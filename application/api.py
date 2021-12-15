@@ -1,13 +1,11 @@
 from flask import Blueprint, request, abort, Response, jsonify
 import flask
+
 # import flask_whooshalchemy as wa
 from typing import List, Tuple
-from models import *
-from dataclasses import dataclass
-from  werkzeug.security import generate_password_hash, check_password_hash
-from extensions import guard, cors
+from application.models import *
+from application.extensions import guard
 import flask_praetorian
-import flask_cors
 
 api = Blueprint("api", __name__)
 
@@ -286,8 +284,8 @@ def refresh():
     new_token = guard.refresh_jwt_token(old_token)
     ret = {"access_token": new_token}
     return ret, 200
-  
-  
+
+
 @api.route("/api/protected")
 @flask_praetorian.auth_required
 def protected():
@@ -298,4 +296,6 @@ def protected():
        $ curl http://localhost:5000/api/protected -X GET \
          -H "Authorization: Bearer <your_token>"
     """
-    return {"message": f"protected endpoint (allowed user {flask_praetorian.current_user().username})"}
+    return {
+        "message": f"protected endpoint (allowed user {flask_praetorian.current_user().username})"
+    }

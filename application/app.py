@@ -2,11 +2,11 @@ from flask import Flask
 
 # import flask_whooshalchemy as wa
 
-from extensions import db, guard, cors
-from api import api
-from config import Config
-from models import Post
-from models import User
+from application.extensions import db, guard, cors
+from application.api import api
+from application.config import Config
+from application.models import User
+
 
 def create_app(config=Config) -> Flask:
     app = Flask(__name__)
@@ -21,7 +21,6 @@ def create_app(config=Config) -> Flask:
         db.create_all()
         db.session.commit()
     return app
-
 
 
 if __name__ == "__main__":
