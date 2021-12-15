@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import {login, useAuth, logout} from "../auth"
+import {
+  Link
+} from "react-router-dom";
+import Register from './Register'
 
 function Login() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-  
     const onSubmitClick = (e)=>{
       e.preventDefault()
       let opts = {
@@ -26,7 +29,7 @@ function Login() {
           }
         })
     }
-  
+    
     const handleUsernameChange = (e) => {
       setUsername(e.target.value)
     }
@@ -36,7 +39,6 @@ function Login() {
     }
   
     const [logged] = useAuth();
-
     return (
       <div className='Login'>
         <h2>Login</h2>
@@ -59,6 +61,10 @@ function Login() {
           <button onClick={onSubmitClick} type="submit">
             Login Now
           </button>
+          <div>
+            <h3> Don't have an account? Create one!</h3>
+            <Link to ='/register'> <button> Register </button> </Link>
+          </div>
         </form>
         : <button onClick={() => logout()}>Logout</button>}
       </div>

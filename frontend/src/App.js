@@ -4,12 +4,16 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link
+  Link,
+  Navigate
 } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 import Home from "./components/Home";
 import Login from "./components/Login";
-import NavBar from "./components/Nav";
+//import NavBar from "./components/Nav";
+//import {useAuth} from "./auth"
+import PrivateRoute from "./components/PrivateRoute";
+import Register from './components/Register'
 
 function App() {
   /*
@@ -32,6 +36,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Dashboard/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/register' element={<Register/>}/>
         <Route path='/home' element={<Home/>}/>
       </Routes>
 
@@ -39,5 +44,6 @@ function App() {
     </Router>
   );
 }
+
 
 export default App;
