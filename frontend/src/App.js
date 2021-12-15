@@ -5,7 +5,6 @@ import Dashboard from "./components/Dashboard";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import NavBar from "./components/Nav";
-import Addposts from "./components/Addposts";
 
 function App() {
   /*

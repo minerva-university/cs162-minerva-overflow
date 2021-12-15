@@ -4,7 +4,7 @@ import Header from "./Header.js";
 import Post from "./Post.js";
 import Elem from "./RenderElem.js";
 import Tags from "./Tags.js";
-import Addposts from "./Addposts";
+import Addposts from "./Addposts.js";
 
 function Dashboard() {
   /*
