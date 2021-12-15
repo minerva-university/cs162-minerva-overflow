@@ -3,6 +3,7 @@
     padding: 5px;
     margin: 15px;
     position : relative;
+    display: grid;
   }
 
 .input {
@@ -22,6 +23,9 @@ font: 'Poppins';
 font-size: 15px;
 font-weight:400;
 position: relative;
-right : -125px;
 border-radius: 0px;
+}
+
+.title {
+  position: relative;
 }

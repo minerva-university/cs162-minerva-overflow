@@ -1,5 +1,6 @@
 import React from "react"
-import axios from "axios";
+import axios from "axios"
+import { useNavigate } from 'react-router-dom'
 import "./Addposts.css"
 
 export default function Addposts(){
@@ -9,23 +10,30 @@ export default function Addposts(){
     const [title, setTitle] = React.useState('');
     const [upvotes, setUpvote] = React.useState(0);
     const [user_id, setUser] = React.useState("");
+    const [allCities, setAllCities] = React.useState([]);
+    const history = useNavigate()
+
+    React.useEffect(() => {
+      axios
+        .get("/api/cities")
+        .then((res) => setAllCities(res.data))
+        .catch((err) => console.log(err));
+    }, []);
 
     function handleSubmit(e){
-        e.preventDefault();
         const created_at = new Date().toISOString();
-        const submit = {
+        const submit={"post": 
+        {
+            user_id, 
             city_id,
-            created_at,
-            edited,
-            post_text,
             title,
-            upvotes,
-            user_id,
-        };
+            post_text}};
 
        
         axios.post("http://127.0.0.1:5000/api/posts",submit)
             .then(() => {console.log("post add")})
+        
+        history("/")
             
         // fetch("http://127.0.0.1:5000/posts",{
         //     method:'POST',
@@ -40,7 +48,7 @@ export default function Addposts(){
 
     return (
         <main >
-            <form className="form" onClick={handleSubmit}>
+            <form className="form" onSubmit={handleSubmit}>
                 <div className="add_post">
                     <input className="title"
                         type="text"
@@ -57,19 +65,16 @@ export default function Addposts(){
                         onChange={(e)=>setPost(e.target.value)}
                         required
                     />
-                    <button className="post_button"
+
+            <select value={city_id} onChange={(e) => setCity(e.target.value)}>
+                {allCities.map((city) => (
+                <option value={city.city_id}>{city.city_name}</option>
+                ))}
+            </select>
+
+                    <button className="post_button" type="submit"
                     >Add Post</button>
 
-                    {/* axios.map */}
-                    <select value={city_id} onChange={(e)=>setCity(e.target.value)}>
-                        <option value="1">San Francisco</option>
-                        <option value="2">Seoul</option>
-                        <option value="3">Hyderabad</option>
-                        <option value="4">Berlin</option>
-                        <option value="5">Buenos Aires</option>
-                        <option value="6">London</option>
-                        <option value="7">Taipei</option>
-                    </select>
                 </div>
             </form>
         </main>
