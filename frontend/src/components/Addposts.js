@@ -20,16 +20,13 @@ export default function Addposts() {
   }, []);
 
   function handleSubmit(e) {
-    e.preventDefault();
     const created_at = new Date().toISOString();
-    const submit = {
-      city_id,
-      created_at,
-      edited,
-      post_text,
-      title,
-      upvotes,
-      user_id,
+    const submit = {"post": 
+    {user_id,
+    city_id,
+    title,
+    post_text
+}
     };
 
     axios.post("http://127.0.0.1:5000/api/posts", submit).then(() => {
@@ -48,7 +45,7 @@ export default function Addposts() {
 
   return (
     <main>
-      <form className="form" onClick={handleSubmit}>
+      <form className="form" onSubmit={handleSubmit}>
         <div className="add_post">
           <input
             className="title"
@@ -75,7 +72,7 @@ export default function Addposts() {
             ))}
           </select>
 
-          <button className="post_button">Add Post</button>
+          <button className="post_button" type="submit">Add Post</button>
         </div>
       </form>
     </main>
