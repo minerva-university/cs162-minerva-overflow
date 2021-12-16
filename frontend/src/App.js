@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import Register from './components/Register'
 import NavBar from "./components/NavBar";
 import {useAuth} from "./auth";
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   /*
@@ -20,7 +21,7 @@ function App() {
   const [logged] = useAuth();
   return (
     <Router>
-      <div>
+      <div id='app'>
       {logged? (<NavBar/>):(<div></div>)}
         <Routes>
           <Route path="/" element={<Dashboard />} />
