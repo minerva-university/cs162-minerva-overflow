@@ -6,15 +6,11 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 //import NavBar from "./components/Nav";
 //import {useAuth} from "./auth"
-<<<<<<< HEAD
-import Register from './components/Register'
-import NavBar from "./components/NavBar";
-import {useAuth} from "./auth";
-=======
+
 import Register from "./components/Register";
 import NavBar from "./components/NavBar";
 import { useAuth, authFetch } from "./auth";
->>>>>>> fix-auth-api-call
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   /*
@@ -26,12 +22,8 @@ function App() {
   const [logged] = useAuth();
   return (
     <Router>
-      <div>
-<<<<<<< HEAD
-      {logged? (<NavBar/>):(<div></div>)}
-=======
+      <div id="app">
         {logged ? <NavBar /> : <div></div>}
->>>>>>> fix-auth-api-call
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />

@@ -4,6 +4,7 @@ import {
   Link, 
   useNavigate
 } from "react-router-dom";
+import "./style/Register.css";
 import Login from './Login';
 
 function Register() {
@@ -66,50 +67,57 @@ function Register() {
     return (
       <div className='Register'>
         <h2>Registration form</h2>
-        {!logged? <form action="#">
-          <div>
+        {!logged? <form id="sign-up-form"  action="#">
+          <div className="form-group">
             <input type="text" 
               placeholder="Username" 
               onChange={handleUsernameChange}
-              value={username} 
+              value={username}
+              className="form-control" 
             />
           </div>
-          <div>
+          <div className="form-group">
             <input type="password" 
               placeholder="Password" 
               onChange={handlePasswordChange}
               value={password} 
+              className="form-control"
             />
           </div>
-          <div>
+          <div className="form-group">
             <input type="text" 
               placeholder="Email" 
               onChange={handleEmailChange}
               value={email} 
+              className="form-control"
             />
           </div>
-          <div>
+          <div className="form-group">
             <input type="text" 
               placeholder="First Name" 
               onChange={handleFirstnameChange}
               value={first_name} 
+              className="form-control"
             />
           </div>
-          <div>
+          <div className="form-group">
             <input type="text" 
               placeholder="Surname" 
               onChange={handleSurnameChange}
               value={surname} 
+              className="form-control"
             />
           </div>
-          <div>
+          <div className="form-group">
             <input type="text" 
               placeholder="Cohort ID" 
               onChange={handleCohortChange}
               value={cohort_id} 
+              className="form-control"
             />
           </div>
-          <button onClick={onSubmitClick} type="submit">
+          <br/>
+          <button id='register-btn' className="btn btn-primary btn-block" onClick={onSubmitClick} type="submit">
             Register
           </button>
         </form>
