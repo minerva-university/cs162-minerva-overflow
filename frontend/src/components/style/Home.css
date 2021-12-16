@@ -1,0 +1,19 @@
+.Home {
+    position: relative;
+    background-color: #788585;
+    display: flex;
+    flex-direction: column;
+    height: 1000px;
+    width: 100%;
+    align-items: center;
+}
+
+/* .App-head {
+    background-color: #788585;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  } */
