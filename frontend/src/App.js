@@ -6,15 +6,9 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 //import NavBar from "./components/Nav";
 //import {useAuth} from "./auth"
-<<<<<<< HEAD
-import Register from './components/Register'
-import NavBar from "./components/NavBar";
-import {useAuth} from "./auth";
-=======
 import Register from "./components/Register";
 import NavBar from "./components/NavBar";
-import { useAuth, authFetch } from "./auth";
->>>>>>> fix-auth-api-call
+import { useAuth } from "./auth";
 
 function App() {
   /*
@@ -27,11 +21,7 @@ function App() {
   return (
     <Router>
       <div>
-<<<<<<< HEAD
-      {logged? (<NavBar/>):(<div></div>)}
-=======
         {logged ? <NavBar /> : <div></div>}
->>>>>>> fix-auth-api-call
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />

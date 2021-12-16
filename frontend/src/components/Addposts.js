@@ -32,30 +32,30 @@ export default function Addposts() {
     <main>
       <form className="form" onSubmit={handleSubmit}>
         <div className="add_post">
-          <input
-            className="title"
-            type="text"
-            placeholder="Add title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
+          <div className="inputBar">
+            <input
+              className="title"
+              type="text"
+              placeholder="Add title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
 
+            <select value={city_id} onChange={(e) => setCity(e.target.value)}>
+              {allCities.map((city) => (
+                <option value={city.city_id}>{city.city_name}</option>
+              ))}
+            </select>
+          </div>
           <input
-            className="input"
+            className="typingArea"
             type="text"
             placeholder="What do you want to share with Minervans?"
             value={post_text}
             onChange={(e) => setPost(e.target.value)}
             required
           />
-
-          <select value={city_id} onChange={(e) => setCity(e.target.value)}>
-            {allCities.map((city) => (
-              <option value={city.city_id}>{city.city_name}</option>
-            ))}
-          </select>
-
           <button className="post_button" type="submit">
             Add Post
           </button>
