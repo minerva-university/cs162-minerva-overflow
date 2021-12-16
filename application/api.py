@@ -67,7 +67,6 @@ def add_user() -> Tuple[Response, int]:
     )
 
 @api.route("/api/posts", methods=["GET"])
-@flask_praetorian.auth_required
 def get_all_posts() -> Tuple[Response, int]:
     """Function to get all posts from the database"""
     posts = Post.query.all()
@@ -75,7 +74,6 @@ def get_all_posts() -> Tuple[Response, int]:
 
 
 @api.route("/api/posts", methods=["POST"])
-@flask_praetorian.auth_required
 def add_post() -> Tuple[Response, int]:
     """Function to add a new post to the database"""
     if not request.json or not "post" in request.json:
@@ -92,7 +90,6 @@ def add_post() -> Tuple[Response, int]:
 
 
 @api.route("/api/posts/<int:post_id>", methods=["GET"])
-@flask_praetorian.auth_required
 def get_post(post_id: int) -> Tuple[Response, int]:
     """Function to get post from its id in the database"""
     post = Post.query.filter_by(post_id=int(post_id)).first()
@@ -189,7 +186,6 @@ def upvote_post(post_id: int) -> Response:
 
 
 @api.route("/api/cohorts", methods=["GET"])
-@flask_praetorian.auth_required
 def get_cohorts() -> Tuple[Response, int]:
     """Get all cohorts in database"""
     cohorts = Cohort.query.all()
@@ -197,7 +193,6 @@ def get_cohorts() -> Tuple[Response, int]:
 
 
 @api.route("/api/cities", methods=["GET"])
-@flask_praetorian.auth_required
 def get_cities() -> Tuple[Response, int]:
     """Get all cities in database"""
     cities = City.query.all()
