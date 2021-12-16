@@ -3,8 +3,8 @@ import flask
 
 # import flask_whooshalchemy as wa
 from typing import List, Tuple
-from application.models import *
-from application.extensions import guard
+from models import *
+from extensions import guard
 import flask_praetorian
 
 api = Blueprint("api", __name__)
@@ -37,6 +37,7 @@ def get_user(user_id: int) -> Tuple[Response, int]:
 
 
 @api.route("/api/users", methods=["POST"])
+@flask_praetorian.auth_required
 def add_user() -> Tuple[Response, int]:
     """Function to add a new user to the database"""
     if not request.json or not "user" in request.json:
@@ -67,7 +68,6 @@ def add_user() -> Tuple[Response, int]:
     )
 
 @api.route("/api/posts", methods=["GET"])
-@flask_praetorian.auth_required
 def get_all_posts() -> Tuple[Response, int]:
     """Function to get all posts from the database"""
     posts = Post.query.all()
@@ -286,16 +286,8 @@ def refresh():
     return ret, 200
 
 
-@api.route("/api/protected")
+@api.route('/api/protected')
 @flask_praetorian.auth_required
 def protected():
-    """
-    A protected endpoint. The auth_required decorator will require a header
-    containing a valid JWT
-    .. example::
-       $ curl http://localhost:5000/api/protected -X GET \
-         -H "Authorization: Bearer <your_token>"
-    """
-    return {
-        "message": f"protected endpoint (allowed user {flask_praetorian.current_user().username})"
-    }
+    user = User.query.filter_by(username=flask_praetorian.current_user().username).first()
+    return jsonify(user)

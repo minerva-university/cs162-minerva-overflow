@@ -4,7 +4,7 @@ from sqlalchemy.sql.schema import Table
 from sqlalchemy.engine.base import Connection
 from dataclasses import dataclass
 
-from application.extensions import db, guard
+from extensions import db, guard
 
 
 """ 
