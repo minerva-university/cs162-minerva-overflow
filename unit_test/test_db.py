@@ -6,8 +6,6 @@ from application.api import (
     get_post_tags,
 )
 
-# from application.api import query_search_posts
-
 
 def test_prior_db_fill(client: Flask):
     assert [cohort.cohort_name for cohort in db.session().query(Cohort).all()] == [
@@ -82,12 +80,9 @@ def test_many_to_many_relationship(client: Flask):
     ]
 
 
-"""
-Commenting because the library might not be supported
-To be updated
-
 def test_query_search(client: Flask):
-    query = "donuts"
+    query1 = "donuts"
+    query2 = "coworking"
 
     post1 = Post(
         user_id=1,
@@ -101,6 +96,7 @@ def test_query_search(client: Flask):
         title="AWS Loft",
         post_text="Nice coworking space available for free",
     )
+
     db.session.add(post1)
     db.session.add(post2)
 
@@ -111,6 +107,9 @@ def test_query_search(client: Flask):
     db.session.execute(tags_and_posts.insert().values(tag_id=4, post_id=1))
 
     db.session.commit()
-    donuts_posts = query_search_posts(query)
-    assert [post.title for post in donuts_posts] == ["Best Donuts in USA"]
-"""
+
+    donuts_posts = Post.query.msearch(query1, fields=["title", "post_text"])
+    coworking_posts = Post.query.msearch(query2, fields=["title", "post_text"])
+
+    assert list(set([post.title for post in donuts_posts])) == ["Best Donuts in USA"]
+    assert list(set([post.title for post in coworking_posts])) == ["AWS Loft"]

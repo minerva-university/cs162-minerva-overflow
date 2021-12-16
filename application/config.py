@@ -11,6 +11,11 @@ class Config(object):
     # WHOOSH_BASE = "whoosh"
     SECRET_KEY = "192b9bdd22ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d54727823bcbf"
     SQLALCHEMY_DATABASE_URI = "sqlite:///"
+    MSEARCH_INDEX_NAME = 'msearch'
+    # simple,whoosh,elaticsearch, default is simple
+    # MSEARCH_BACKEND = 'whoosh'
+    MSEARCH_PRIMARY_KEY = 'post_id'
+    MSEARCH_ENABLE = True
     JWT_ACCESS_LIFESPAN = {'hours': 24}
     JWT_REFRESH_LIFESPAN = {'days': 30}
 

@@ -204,54 +204,12 @@ def get_cities() -> Tuple[Response, int]:
     return (jsonify(cities), 201)
 
 
-""" 
-All functions below are utility functions that can be used in the route functions to have an easy connection
-with the database.
-"""
-
-
-def get_posts_written_by_user(user_id: int) -> List[Post]:
-    return User.query.filter_by(user_id=user_id).first().posts
-
-
-def get_user_favorite_posts(user_id: int) -> List[Post]:
-    return User.query.filter_by(user_id=user_id).first().user_favorite_posts
-
-
-def get_comments_written_by_user(user_id: int) -> List[Comment]:
-    return User.query.filter_by(user_id=user_id).first().comments
-
-
-def get_tag_posts(tag_id: int) -> List[Post]:
-    return Tag.query.filter_by(tag_id=tag_id).first().posts
-
-
-def get_posts_comments(post_id: int) -> List[Comment]:
-    return Post.query.filter_by(post_id=post_id).first().comments
-
-
-def get_user_who_favorited_post(post_id: int) -> List[User]:
-    return Post.query.filter_by(post_id=post_id).first().favorite_of
-
-
-def get_post_tags(post_id: int) -> List[Tag]:
-    return Post.query.filter_by(post_id=post_id).first().tags
-
-
-def get_users_from_cohort(cohort_id: int) -> List[User]:
-    return Cohort.query.filter_by(cohort_id=cohort_id).first().users
-
-
-def get_posts_by_city(city_id: int) -> List[Post]:
-    return City.query.filter_by(city_id=city_id).first().posts
-
-
-def get_posts_by_cohort(cohort_id: int) -> List[Post]:
-    return Cohort.query.filter_by(cohort_id=cohort_id).first().posts
-
-
-# def query_search_posts(query: str) -> List[Post]:
-#     return Post.query.whoosh_search(query).all()
+@api.route("/search")
+def query_search() -> Tuple[Response, int]:
+    """Get all posts matching the user query"""
+    keyword = request.args.get('keyword')
+    results = Post.query.msearch(keyword)
+    return (jsonify(results), 201)
 
 
 @api.route("/api/login", methods=["POST"])
@@ -299,3 +257,48 @@ def protected():
     return {
         "message": f"protected endpoint (allowed user {flask_praetorian.current_user().username})"
     }
+
+""" 
+All functions below are utility functions that can be used in the route functions to have an easy connection
+with the database.
+"""
+
+
+def get_posts_written_by_user(user_id: int) -> List[Post]:
+    return User.query.filter_by(user_id=user_id).first().posts
+
+
+def get_user_favorite_posts(user_id: int) -> List[Post]:
+    return User.query.filter_by(user_id=user_id).first().user_favorite_posts
+
+
+def get_comments_written_by_user(user_id: int) -> List[Comment]:
+    return User.query.filter_by(user_id=user_id).first().comments
+
+
+def get_tag_posts(tag_id: int) -> List[Post]:
+    return Tag.query.filter_by(tag_id=tag_id).first().posts
+
+
+def get_posts_comments(post_id: int) -> List[Comment]:
+    return Post.query.filter_by(post_id=post_id).first().comments
+
+
+def get_user_who_favorited_post(post_id: int) -> List[User]:
+    return Post.query.filter_by(post_id=post_id).first().favorite_of
+
+
+def get_post_tags(post_id: int) -> List[Tag]:
+    return Post.query.filter_by(post_id=post_id).first().tags
+
+
+def get_users_from_cohort(cohort_id: int) -> List[User]:
+    return Cohort.query.filter_by(cohort_id=cohort_id).first().users
+
+
+def get_posts_by_city(city_id: int) -> List[Post]:
+    return City.query.filter_by(city_id=city_id).first().posts
+
+
+def get_posts_by_cohort(cohort_id: int) -> List[Post]:
+    return Cohort.query.filter_by(cohort_id=cohort_id).first().posts
