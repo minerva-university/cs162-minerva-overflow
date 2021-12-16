@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import "./style/Home.css";
 import { useAuth } from "../auth";
 import Login from './Login';
+
 function Home() {
     
     const [logged] = [useAuth()];

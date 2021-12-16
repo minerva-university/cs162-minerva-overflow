@@ -1,0 +1,41 @@
+.navbar-top {
+    display: grid;
+    background-color: #CCDAD1;
+    grid-template-columns: repeat(9, 1fr);
+    position:fixed;
+    width: 100%;
+    margin-top: -145px;
+    z-index:1;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  #title-nav {
+    grid-column: 1/3;
+    padding: 10px;
+    width: 300px;
+    color : #37312F;
+  }
+  
+  #dashboard-nav {
+    grid-column: 6;
+    padding: 10px;
+  }
+  
+  #home-nav{
+    grid-column: 7;
+    padding: 10px;
+  }
+  
+  #login-nav {
+    grid-column: 8;
+    padding: 10px;
+  }
+
+  .Dashboard, .Home, .Login{
+    margin-top: 10%;
+  }
+  
+
+  .Link {
+    color: #61dafb;
+  }

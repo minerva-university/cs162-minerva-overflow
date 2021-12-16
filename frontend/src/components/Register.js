@@ -80,7 +80,7 @@ function Register() {
             />
           </div>
           <div>
-            <input type="text" 
+            <input type="password" 
               placeholder="Password" 
               onChange={handlePasswordChange}
               value={password} 
