@@ -394,8 +394,19 @@ def insert_initial_users(target: Table, connection: Connection, **kw):
         about_me="I love boba",
     )
 
+    user3= User(
+        username="yuehan",
+        password=guard.hash_password("7817"),
+        first_name="Yueh Han",
+        surname="Huang",
+        email="yhhuang@uni.minerva.edu",
+        cohort_id=4,
+        about_me="I love boba and coding",
+    )
+
     db.session.add(user1)
     db.session.add(user2)
+    db.session.add(user3)
     db.session.commit()
 
 

@@ -1,21 +1,29 @@
 import React, { useState, useEffect } from "react";
+import { useAuth, authFetch, login, logout } from "../auth";
 
 function Elem(prop) {
   const [elements, setElements] = useState(["loading..."]);
   useEffect(() => {
-    fetch(prop.path)
-      .then((res) => res.json())
-      .then((data) => {
-        setElements(data.map((obj) => obj[prop.tagName]));
+    fetch(prop.path, { method: "get" })
+      .then((response) => {
+        if (response.status === 401) {
+          setElements(["Sorry you aren't authorized!"]);
+          return null;
+        }
+        return response.json();
+      })
+      .then((response) => {
+        if (response) {
+          setElements(response.map((tag) => tag[prop.tagName]));
+        }
       });
   }, []);
-  console.log(elements);
+
   const listItems = elements.map((e) => <p className="Button">{e}</p>);
   return (
     <div className="TagContainer">
       <div>{prop.path}</div>
       <div className="Tags">{listItems}</div>
-      {/* {console.log(typeof elements == typeof [])} */}
     </div>
   );
 }

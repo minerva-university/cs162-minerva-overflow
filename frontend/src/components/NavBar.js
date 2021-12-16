@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import "./style/Nav.css";
+import "./style/NavBar.css";
+import { useAuth, logout } from "../auth";
 
 const StyledLink = styled(Link)`
   padding: 20px;
@@ -13,23 +14,30 @@ const StyledLink = styled(Link)`
 `;
 
 function NavBar(props) {
+  const [logged] = useAuth();
   return (
     <div class="navbar-top">
       <h3 id="title-nav"> Minerva Overflow / CS162 </h3>
       <h3 id="dashboard-nav">
         {" "}
-        <StyledLink to="/">Dashboard</StyledLink>{" "}
+        <Link to="/">Dashboard</Link>{" "}
       </h3>
       <h3 id="home-nav">
         {" "}
-        <StyledLink to="/home"> Home </StyledLink>{" "}
+        <Link to="/home"> Home </Link>{" "}
       </h3>
-      <h3 id="login-nav">
-        {" "}
-        <StyledLink to="/login"> Login </StyledLink>{" "}
-      </h3>
+      {!logged ? (
+        <h3 id="login-nav">
+          {" "}
+          <Link to="/login"> Login </Link>{" "}
+        </h3>
+      ) : (
+        <h3 id="logout-btn" onClick={() => logout()}>
+          Logout
+        </h3>
+      )}
     </div>
   );
 }
 
-export default styled(NavBar);
+export default NavBar;
