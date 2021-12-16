@@ -32,8 +32,8 @@ function Post() {
     <div clasName="PostContainer">
       {posts.map(({ post_text, title, user_id }) => (
         <div className="Post">
-          <p className="post_text">{post_text}</p>
-          <p className="name">{title}</p>
+          <p className="post_text">{title}</p>
+          <p className="name">{post_text}</p>
           <p className="name">Posted by user {user_id}</p>
         </div>
       ))}
