@@ -7,6 +7,8 @@ import Login from "./components/Login";
 //import NavBar from "./components/Nav";
 //import {useAuth} from "./auth"
 import Register from './components/Register'
+import NavBar from "./components/NavBar";
+import {useAuth} from "./auth";
 
 function App() {
   /*
@@ -15,25 +17,11 @@ function App() {
     return <Login setToken={setToken} />
   }
   */
-
+  const [logged] = useAuth();
   return (
     <Router>
       <div>
-        <div class="navbar-top">
-          <h3 id="title-nav"> Minerva Overflow / CS162 </h3>
-          <h3 id="dashboard-nav">
-            {" "}
-            <Link to="/">Dashboard</Link>{" "}
-          </h3>
-          <h3 id="home-nav">
-            {" "}
-            <Link to="/home"> Home </Link>{" "}
-          </h3>
-          <h3 id="login-nav">
-            {" "}
-            <Link to="/login"> Login </Link>{" "}
-          </h3>
-        </div>
+      {logged? (<NavBar/>):(<div></div>)}
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />

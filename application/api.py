@@ -99,7 +99,6 @@ def get_post(post_id: int) -> Tuple[Response, int]:
 
 
 @api.route("/api/posts/<int:post_id>", methods=["PUT"])
-@flask_praetorian.auth_required
 def edit_post(post_id: int) -> Tuple[Response, int]:
     """Function to edit post in the database"""
     post = Post.query.filter_by(post_id=int(post_id)).first()
@@ -119,7 +118,6 @@ def edit_post(post_id: int) -> Tuple[Response, int]:
 
 
 @api.route("/api/posts/<int:post_id>", methods=["DELETE"])
-@flask_praetorian.auth_required
 def delete_post(post_id: int) -> Tuple[Response, int]:
     """Function to delete post in the database"""
     post = Post.query.filter_by(post_id=int(post_id)).first()
@@ -134,7 +132,6 @@ def delete_post(post_id: int) -> Tuple[Response, int]:
 
 
 @api.route("/api/tags", methods=["GET"])
-@flask_praetorian.auth_required
 def get_tags() -> Tuple[Response, int]:
     """Function to get all tags from the database"""
     tags = Tag.query.all()
@@ -142,7 +139,6 @@ def get_tags() -> Tuple[Response, int]:
 
 
 @api.route("/api/tags", methods=["POST"])
-@flask_praetorian.auth_required
 def add_tag() -> Tuple[Response, int]:
     """Function to add a new tag to the database"""
     if not request.json or not "tag" in request.json:
@@ -157,7 +153,6 @@ def add_tag() -> Tuple[Response, int]:
 
 
 @api.route("/api/posts/<int:post_id>/tags/<int:tag_id>", methods=["POST"])
-@flask_praetorian.auth_required
 def add_tag_to_post(tag_id: int, post_id: int) -> Tuple[Response, int]:
     """Function to add tag to the post in the database"""
     db.session.execute(tags_and_posts.insert().values(tag_id=tag_id, post_id=post_id))
@@ -281,16 +276,7 @@ def refresh():
     return ret, 200
 
 
-@api.route("/api/protected")
-@flask_praetorian.auth_required
+@api.route('/api/protected')
 def protected():
-    """
-    A protected endpoint. The auth_required decorator will require a header
-    containing a valid JWT
-    .. example::
-       $ curl http://localhost:5000/api/protected -X GET \
-         -H "Authorization: Bearer <your_token>"
-    """
-    return {
-        "message": f"protected endpoint (allowed user {flask_praetorian.current_user().username})"
-    }
+    user = User.query.filter_by(username=flask_praetorian.current_user().username).first()
+    return jsonify(user)
