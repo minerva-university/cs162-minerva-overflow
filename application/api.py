@@ -49,14 +49,22 @@ def add_user() -> Tuple[Response, int]:
     existing_email = User.query.filter_by(email=request.json["user"]["email"]).first()
     if existing_email:
         abort(403, "Email already exists")
-    username=request.json["user"]["username"]
-    password=guard.hash_password(request.json["user"]["password"])
-    email=request.json["user"]["email"]
-    first_name=request.json["user"]["first_name"]
-    surname=request.json["user"]["surname"]
-    cohort_id=request.json["user"]["cohort_id"]
-    about_me=request.json["user"]["about_me"]
-    user = User(username=username,password=password,email=email, first_name=first_name, surname=surname,cohort_id=cohort_id,about_me=about_me)
+    username = request.json["user"]["username"]
+    password = guard.hash_password(request.json["user"]["password"])
+    email = request.json["user"]["email"]
+    first_name = request.json["user"]["first_name"]
+    surname = request.json["user"]["surname"]
+    cohort_id = request.json["user"]["cohort_id"]
+    about_me = request.json["user"]["about_me"]
+    user = User(
+        username=username,
+        password=password,
+        email=email,
+        first_name=first_name,
+        surname=surname,
+        cohort_id=cohort_id,
+        about_me=about_me,
+    )
     db.session.add(user)
     db.session.commit()
     return (
@@ -65,6 +73,7 @@ def add_user() -> Tuple[Response, int]:
         ),
         201,
     )
+
 
 @api.route("/api/posts", methods=["GET"])
 def get_all_posts() -> Tuple[Response, int]:
@@ -260,6 +269,7 @@ def login():
     ret = {"access_token": guard.encode_jwt_token(user)}
     return ret, 200
 
+
 @api.route("/api/refresh", methods=["POST"])
 def refresh():
     """
@@ -276,7 +286,9 @@ def refresh():
     return ret, 200
 
 
-@api.route('/api/protected')
+@api.route("/api/protected")
 def protected():
-    user = User.query.filter_by(username=flask_praetorian.current_user().username).first()
+    user = User.query.filter_by(
+        username=flask_praetorian.current_user().username
+    ).first()
     return jsonify(user)
