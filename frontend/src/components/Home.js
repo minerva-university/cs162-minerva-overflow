@@ -12,8 +12,7 @@ function Home() {
 
     const token = localStorage.getItem("REACT_TOKEN_AUTH_KEY")
     const my_jwt = token.split(":")[1].substring(1, token.split(":")[1].length - 1)
-    console.log("Bearer " + my_jwt)
-    
+
     const onSubmitClick = (e) => {
       e.preventDefault();
       //console.log(opts)
