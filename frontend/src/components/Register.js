@@ -13,7 +13,6 @@ function Register() {
     const [first_name, setFirstname] = useState('')
     const [surname, setSurname] = useState('')
     const [cohort_id, setCohort] = useState('')
-    const [about_me, setAbout] = useState('')
     let history = useNavigate();
 
     const onSubmitClick = (e)=>{
@@ -26,7 +25,7 @@ function Register() {
         'first_name': first_name,
         'surname': surname,
         'cohort_id': cohort_id,
-        'about_me': about_me
+        'about_me': ' ',
       }}
       fetch('/api/users', {
         method: 'post',
@@ -61,10 +60,6 @@ function Register() {
 
     const handleCohortChange = (e) => {
         setCohort(e.target.value)
-    }
-
-    const handleAboutChange = (e) => {
-        setAbout(e.target.value)
     }
 
     const [logged] = useAuth();
@@ -112,13 +107,6 @@ function Register() {
               placeholder="Cohort ID" 
               onChange={handleCohortChange}
               value={cohort_id} 
-            />
-          </div>
-          <div>
-            <input type="text" 
-              placeholder="My hobbies are..." 
-              onChange={handleAboutChange}
-              value={about_me} 
             />
           </div>
           <button onClick={onSubmitClick} type="submit">
