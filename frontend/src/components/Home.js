@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from "react";
 import "./style/Home.css";
+import { useAuth } from "../auth";
+import Login from './Login';
 
 function Home() {
-  /*
-    if(!token) {
-      return <Login setToken={setToken} />
+    
+    const [logged] = [useAuth()];
+
+    if(!logged[0]) {
+      return <Login/>
     }
-    */
 
-  return (
-    <div className="Home">
-      <p> This is your home!</p>
-    </div>
-  );
-}
-
-export default Home;
+    return (
+      <div className="Home">
+        <p> This is your home!</p>
+      </div>
+    );
+  }
+  
+  export default Home;

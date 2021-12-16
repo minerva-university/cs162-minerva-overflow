@@ -49,7 +49,14 @@ def add_user() -> Tuple[Response, int]:
     existing_email = User.query.filter_by(email=request.json["user"]["email"]).first()
     if existing_email:
         abort(403, "Email already exists")
-    user = User(**request.json["user"])
+    username=request.json["user"]["username"]
+    password=guard.hash_password(request.json["user"]["password"])
+    email=request.json["user"]["email"]
+    first_name=request.json["user"]["first_name"]
+    surname=request.json["user"]["surname"]
+    cohort_id=request.json["user"]["cohort_id"]
+    about_me=request.json["user"]["about_me"]
+    user = User(username=username,password=password,email=email, first_name=first_name, surname=surname,cohort_id=cohort_id,about_me=about_me)
     db.session.add(user)
     db.session.commit()
     return (
@@ -59,8 +66,8 @@ def add_user() -> Tuple[Response, int]:
         201,
     )
 
-
 @api.route("/api/posts", methods=["GET"])
+@flask_praetorian.auth_required
 def get_all_posts() -> Tuple[Response, int]:
     """Function to get all posts from the database"""
     posts = Post.query.all()
@@ -68,6 +75,7 @@ def get_all_posts() -> Tuple[Response, int]:
 
 
 @api.route("/api/posts", methods=["POST"])
+@flask_praetorian.auth_required
 def add_post() -> Tuple[Response, int]:
     """Function to add a new post to the database"""
     if not request.json or not "post" in request.json:
@@ -84,6 +92,7 @@ def add_post() -> Tuple[Response, int]:
 
 
 @api.route("/api/posts/<int:post_id>", methods=["GET"])
+@flask_praetorian.auth_required
 def get_post(post_id: int) -> Tuple[Response, int]:
     """Function to get post from its id in the database"""
     post = Post.query.filter_by(post_id=int(post_id)).first()
@@ -93,6 +102,7 @@ def get_post(post_id: int) -> Tuple[Response, int]:
 
 
 @api.route("/api/posts/<int:post_id>", methods=["PUT"])
+@flask_praetorian.auth_required
 def edit_post(post_id: int) -> Tuple[Response, int]:
     """Function to edit post in the database"""
     post = Post.query.filter_by(post_id=int(post_id)).first()
@@ -112,6 +122,7 @@ def edit_post(post_id: int) -> Tuple[Response, int]:
 
 
 @api.route("/api/posts/<int:post_id>", methods=["DELETE"])
+@flask_praetorian.auth_required
 def delete_post(post_id: int) -> Tuple[Response, int]:
     """Function to delete post in the database"""
     post = Post.query.filter_by(post_id=int(post_id)).first()
@@ -126,6 +137,7 @@ def delete_post(post_id: int) -> Tuple[Response, int]:
 
 
 @api.route("/api/tags", methods=["GET"])
+@flask_praetorian.auth_required
 def get_tags() -> Tuple[Response, int]:
     """Function to get all tags from the database"""
     tags = Tag.query.all()
@@ -133,6 +145,7 @@ def get_tags() -> Tuple[Response, int]:
 
 
 @api.route("/api/tags", methods=["POST"])
+@flask_praetorian.auth_required
 def add_tag() -> Tuple[Response, int]:
     """Function to add a new tag to the database"""
     if not request.json or not "tag" in request.json:
@@ -147,6 +160,7 @@ def add_tag() -> Tuple[Response, int]:
 
 
 @api.route("/api/posts/<int:post_id>/tags/<int:tag_id>", methods=["POST"])
+@flask_praetorian.auth_required
 def add_tag_to_post(tag_id: int, post_id: int) -> Tuple[Response, int]:
     """Function to add tag to the post in the database"""
     db.session.execute(tags_and_posts.insert().values(tag_id=tag_id, post_id=post_id))
@@ -175,6 +189,7 @@ def upvote_post(post_id: int) -> Response:
 
 
 @api.route("/api/cohorts", methods=["GET"])
+@flask_praetorian.auth_required
 def get_cohorts() -> Tuple[Response, int]:
     """Get all cohorts in database"""
     cohorts = Cohort.query.all()
@@ -182,6 +197,7 @@ def get_cohorts() -> Tuple[Response, int]:
 
 
 @api.route("/api/cities", methods=["GET"])
+@flask_praetorian.auth_required
 def get_cities() -> Tuple[Response, int]:
     """Get all cities in database"""
     cities = City.query.all()
@@ -245,7 +261,7 @@ def login():
     issuing a JWT token.
     .. example::
        $ curl http://localhost:5000/api/login -X POST \
-         -d '{"username":"Yasoob","password":"strongpassword"}'
+         -d "{"username":"Yasoob","password":"strongpassword"}"
     """
     req = flask.request.get_json(force=True)
     username = req.get("username", None)
@@ -253,7 +269,6 @@ def login():
     user = guard.authenticate(username, password)
     ret = {"access_token": guard.encode_jwt_token(user)}
     return ret, 200
-
 
 @api.route("/api/refresh", methods=["POST"])
 def refresh():

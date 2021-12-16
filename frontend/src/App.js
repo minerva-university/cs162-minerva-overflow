@@ -4,7 +4,9 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 import Home from "./components/Home";
 import Login from "./components/Login";
-import NavBar from "./components/Nav";
+//import NavBar from "./components/Nav";
+//import {useAuth} from "./auth"
+import Register from './components/Register'
 
 function App() {
   /*
@@ -36,10 +38,12 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </div>
     </Router>
   );
 }
+
 
 export default App;
