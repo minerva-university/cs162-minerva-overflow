@@ -2,10 +2,10 @@ from flask import Flask
 
 # import flask_whooshalchemy as wa
 
-from extensions import db, guard, cors
-from api import api
+from application.extensions import db, guard, cors
+from application.api import api
 from config import Config
-from models import User
+from application.models import User
 
 
 def create_app(config=Config) -> Flask:

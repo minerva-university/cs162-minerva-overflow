@@ -3,8 +3,8 @@ import flask
 
 # import flask_whooshalchemy as wa
 from typing import List, Tuple
-from models import *
-from extensions import guard
+from application.models import *
+from application.extensions import guard
 import flask_praetorian
 
 api = Blueprint("api", __name__)
