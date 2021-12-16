@@ -1,4 +1,4 @@
-.Login {
+.Register{
     width: 40%;
     padding: 20px;
     display: block;
@@ -15,4 +15,10 @@
 
 #app{
     background-color: rgb(94, 89, 155);
+}
+
+#register-btn {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }

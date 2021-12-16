@@ -1,5 +1,23 @@
 * {
-  /* border: 1px dashed limegreen; */
+  /* border: 2px solid limegreen; */
+}
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.AppMenu {
+  width: 40%;
+}
+
+.AppContent {
+  width: 40%;
 }
 
 .App-link {
