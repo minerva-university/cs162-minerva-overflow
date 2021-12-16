@@ -7,6 +7,7 @@ import Tags from "./Tags.js";
 import Addposts from "./Addposts.js";
 import Login from "./Login";
 import { useAuth } from "../auth";
+import { getAutomaticTypeDirectiveNames } from "typescript";
 
 function Dashboard() {
   const [logged] = [useAuth()];
@@ -16,14 +17,16 @@ function Dashboard() {
   }
   return (
     <div className="Dashboard">
-      <header className="App-header">
-        <Header contact={{ username: "XYZ" }} />
-        <Addposts />
-        <Post name={"First Post"}></Post>
-        <Tags />
-        <Elem path="/api/cohorts" tagName="cohort_name"></Elem>
-        <Elem path="/api/tags" tagName="tag_name"></Elem>
-      </header>
+      <div className="App-header">
+        <div className="AppMenu">
+          <Addposts />
+          <Elem path="/api/cohorts" tagName="cohort_name"></Elem>
+          <Elem path="/api/tags" tagName="tag_name"></Elem>
+        </div>
+        <div className="AppContent">
+          <Post />
+        </div>
+      </div>
     </div>
   );
 }
