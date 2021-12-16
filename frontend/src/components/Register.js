@@ -66,6 +66,8 @@ function Register() {
     const [logged] = useAuth();
     return (
       <div className='Register'>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+          </link>
         <h2>Registration form</h2>
         {!logged? <form id="sign-up-form"  action="#">
           <div className="form-group">

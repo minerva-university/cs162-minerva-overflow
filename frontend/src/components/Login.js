@@ -41,6 +41,8 @@ function Login() {
 
   return (
     <div className="Login">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+          </link>
       <h2>Login</h2>
       {!logged ? (
         <form id="sign-in-form" action="#">
