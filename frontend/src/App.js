@@ -10,7 +10,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import NavBar from "./components/NavBar";
 import { useAuth, authFetch } from "./auth";
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+// import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   /*

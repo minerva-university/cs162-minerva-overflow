@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Component } from "react";
 import { login, useAuth, logout } from "../auth";
 import "./style/Login.css";
-import {Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -41,6 +41,10 @@ function Login() {
 
   return (
     <div className="Login">
+      <link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+      ></link>
       <h2>Login</h2>
       {!logged ? (
         <form id="sign-in-form" action="#">
@@ -50,7 +54,7 @@ function Login() {
               placeholder="Username"
               onChange={handleUsernameChange}
               value={username}
-              className="form-control" 
+              className="form-control"
             />
           </div>
           <div className="form-group">
@@ -59,31 +63,48 @@ function Login() {
               placeholder="Password"
               onChange={handlePasswordChange}
               value={password}
-              className="form-control" 
+              className="form-control"
             />
-          </div >
-          <div className="form-group">
-                    <div className="custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" id="customCheck1" />
-                        <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
-                    </div>
           </div>
           <div className="form-group">
-          <button className="btn btn-primary btn-block" onClick={onSubmitClick} type="submit">
-            Login Now
-          </button>
+            <div className="custom-control custom-checkbox">
+              <input
+                type="checkbox"
+                className="custom-control-input"
+                id="customCheck1"
+              />
+              <label className="custom-control-label" htmlFor="customCheck1">
+                Remember me
+              </label>
+            </div>
+          </div>
+          <div className="form-group">
+            <button
+              className="btn btn-primary btn-block"
+              onClick={onSubmitClick}
+              type="submit"
+            >
+              Login Now
+            </button>
           </div>
           <div className="form-group">
             <h6> Don't have an account? Create one!</h6>
-            <Link to ='/register'> <button className="btn btn-primary btn-block" > Register </button> </Link>
+            <Link to="/register">
+              {" "}
+              <button className="btn btn-primary btn-block">
+                {" "}
+                Register{" "}
+              </button>{" "}
+            </Link>
           </div>
         </form>
       ) : (
-        <button className="btn btn-primary btn-block" onClick={() => logout()}>Logout</button>
+        <button className="btn btn-primary btn-block" onClick={() => logout()}>
+          Logout
+        </button>
       )}
     </div>
   );
 }
 
 export default Login;
-
