@@ -49,7 +49,14 @@ def add_user() -> Tuple[Response, int]:
     existing_email = User.query.filter_by(email=request.json["user"]["email"]).first()
     if existing_email:
         abort(403, "Email already exists")
-    user = User(**request.json["user"])
+    username=request.json["user"]["username"]
+    password=guard.hash_password(request.json["user"]["password"])
+    email=request.json["user"]["email"]
+    first_name=request.json["user"]["first_name"]
+    surname=request.json["user"]["surname"]
+    cohort_id=request.json["user"]["cohort_id"]
+    about_me=request.json["user"]["about_me"]
+    user = User(username=username,password=password,email=email, first_name=first_name, surname=surname,cohort_id=cohort_id,about_me=about_me)
     db.session.add(user)
     db.session.commit()
     return (
@@ -58,7 +65,6 @@ def add_user() -> Tuple[Response, int]:
         ),
         201,
     )
-
 
 @api.route("/api/posts", methods=["GET"])
 def get_all_posts() -> Tuple[Response, int]:
@@ -245,7 +251,7 @@ def login():
     issuing a JWT token.
     .. example::
        $ curl http://localhost:5000/api/login -X POST \
-         -d '{"username":"Yasoob","password":"strongpassword"}'
+         -d "{"username":"Yasoob","password":"strongpassword"}"
     """
     req = flask.request.get_json(force=True)
     username = req.get("username", None)
@@ -253,7 +259,6 @@ def login():
     user = guard.authenticate(username, password)
     ret = {"access_token": guard.encode_jwt_token(user)}
     return ret, 200
-
 
 @api.route("/api/refresh", methods=["POST"])
 def refresh():
@@ -271,16 +276,7 @@ def refresh():
     return ret, 200
 
 
-@api.route("/api/protected")
-@flask_praetorian.auth_required
+@api.route('/api/protected')
 def protected():
-    """
-    A protected endpoint. The auth_required decorator will require a header
-    containing a valid JWT
-    .. example::
-       $ curl http://localhost:5000/api/protected -X GET \
-         -H "Authorization: Bearer <your_token>"
-    """
-    return {
-        "message": f"protected endpoint (allowed user {flask_praetorian.current_user().username})"
-    }
+    user = User.query.filter_by(username=flask_praetorian.current_user().username).first()
+    return jsonify(user)

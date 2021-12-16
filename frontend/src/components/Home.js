@@ -1,29 +1,38 @@
 import React, { useState, useEffect } from "react";
 import "./style/Home.css";
+import {useAuth, authFetch, login, logout} from "../auth";
+import Login from './Login';
 
 function Home() {
-  /*
-    if(!token) {
-      return <Login setToken={setToken} />
-    }
-    */
-    var mock_data = {
-      name: "Allison Lehn",
-      user_id: 2,
-      email : "allison@uni.minerva.edu"
-    };
-  return (
-    <div className="Home">
-      <header className="App-head">
-        <h2> Welcome to your home, {mock_data.name}!</h2>
-      </header>
-      <p>email : {mock_data.email}</p>
-      <h3>My Posts</h3>
-      {/* get_posts_written_by_user here */}
-      <h3>My Comments</h3>
-      {/* get_comments_written_by_user here */}
-    </div>
-  );
-}
+    
+    const [logged] = [useAuth()];
+      if(!logged[0]) {
+        return <Login/>
+      }
 
-export default Home;
+    const token = localStorage.getItem("REACT_TOKEN_AUTH_KEY")
+    const my_jwt = token.split(":")[1].substring(1, token.split(":")[1].length - 1)
+
+    const onSubmitClick = (e) => {
+      e.preventDefault();
+      //console.log(opts)
+     fetch("/api/protected", {
+        method: "get",
+        headers: {
+          "Authorization": "Bearer " + my_jwt
+        }
+      })
+       .then(r => r.json())
+        .then(rJson => console.log(rJson))
+    };
+  
+    
+    return (
+      <div className="Home">
+        <p> This is your home!</p>
+        <button onClick={onSubmitClick}> check </button>
+      </div>
+    );
+  }
+  
+  export default Home;

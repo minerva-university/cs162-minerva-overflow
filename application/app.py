@@ -4,7 +4,7 @@ from flask import Flask
 
 from application.extensions import db, guard, cors
 from application.api import api
-from application.config import Config
+from config import Config
 from application.models import User
 
 

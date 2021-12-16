@@ -27,7 +27,7 @@
     padding: 10px;
   }
   
-  #login-nav {
+  #login-nav, #logout-btn {
     grid-column: 8;
     padding: 10px;
   }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { login, useAuth, logout } from "../auth";
 import "./style/Login.css";
+import {Link } from "react-router-dom";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -62,6 +63,10 @@ function Login() {
           <button onClick={onSubmitClick} type="submit">
             Login Now
           </button>
+          <div>
+            <h3> Don't have an account? Create one!</h3>
+            <Link to ='/register'> <button> Register </button> </Link>
+          </div>
         </form>
       ) : (
         <button onClick={() => logout()}>Logout</button>
