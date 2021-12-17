@@ -8,6 +8,22 @@
     align-items: center;
 }
 
+.show_button {
+    background-color: #4f4340;
+    color: #b1acaa;
+    border: none;
+    font: "Roboto";
+    margin-bottom: 5px;
+    font-size: 15px;
+    font-weight: 400;
+    border-radius: 3px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.hide_button {
+    color: #788585;
+}
+
 /* .App-head {
     background-color: #788585;
     display: flex;
