@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
+  //Login componen that contains a form that validates data in the
+  //user database and issues a token for the logged in user
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   let history = useNavigate();
@@ -15,7 +17,6 @@ function Login() {
       username: username,
       password: password,
     };
-    //console.log(opts)
     fetch("/api/login", {
       method: "post",
       body: JSON.stringify(opts),
@@ -24,9 +25,7 @@ function Login() {
       .then((token) => {
         if (token.access_token) {
           login(token);
-          //console.log(token)
         } else {
-          //console.log("Please type in correct username/password")
         }
       });
   };

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./style/Post.css";
 
 function Post() {
+  //A post component that is filled in when called in AddPost
   const [posts, setPosts] = useState([{}]);
   const [loading, setIsLoading] = useState(true);
   useEffect(() => {

@@ -3,6 +3,7 @@ import axios from "axios";
 import "./style/Tags.css";
 
 function Tags() {
+  //a simple component used to display a tag
   const [allTags, setAllTags] = useState([]);
 
   useEffect(() => {

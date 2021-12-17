@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./style/Tags.css";
+
 function Elem(prop) {
+  //Used to render tag element
   const [elements, setElements] = useState(["loading..."]);
   useEffect(() => {
     fetch(prop.path, { method: "get" })
