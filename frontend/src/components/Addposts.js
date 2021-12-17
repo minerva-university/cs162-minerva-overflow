@@ -105,14 +105,14 @@ export default function Addposts() {
               ))}
             </select>
           </div>
-          <input
+          <textarea
             className="typingArea"
             type="text"
             placeholder="What do you want to share?"
             value={post_text}
             onChange={(e) => setPost(e.target.value)}
-            required
-          />
+            required>
+          </textarea>
           <button className="post_button" type="submit">
             Add Post
           </button>
