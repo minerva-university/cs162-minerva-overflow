@@ -112,7 +112,6 @@ def add_post() -> Tuple[Response, int]:
     post = Post(**post_dict)
     db.session.add(post)
     db.session.commit()
-
     for tag in tags_for_post:
         db.session.execute(
             tags_and_posts.insert().values(tag_id=int(tag), post_id=post.post_id)

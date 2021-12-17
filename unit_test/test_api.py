@@ -75,7 +75,13 @@ def test_create_post(client):
     rv = client.post(
         "/api/posts",
         json={
-            "post": {"user_id": 1, "city_id": 1, "title": "Hi", "post_text": "hello"}
+            "post": {
+                "user_id": 1,
+                "city_id": 1,
+                "title": "Hi",
+                "post_text": "hello",
+                "tags": [],
+            }
         },
     )
     assert rv.status_code == 201
@@ -86,7 +92,13 @@ def test_create_wrong_post(client):
     """test that if the json is of the wrong format or doesn't exist, it will return a 400 error"""
     rv = client.post(
         "/api/posts",
-        json={"user_id": 1, "city_id": 1, "title": "Hi", "post_text": "hello"},
+        json={
+            "user_id": 1,
+            "city_id": 1,
+            "title": "Hi",
+            "post_text": "hello",
+            "tags": [],
+        },
     )
     assert rv.status_code == 400
     rv = client.post("/api/posts", json={})
