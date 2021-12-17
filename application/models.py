@@ -425,8 +425,29 @@ def insert_initial_posts(target: Table, connection: Connection, **kw):
         title="AWS Loft",
         post_text="Nice coworking space available for free",
     )
+    post3 = Post(
+        user_id=3,
+        city_id=5,
+        title="Berlin Swapfiets 🚲",
+        post_text="Good deal to get a bike a move around in Berlin!",
+    )
+    post4 = Post(
+        user_id=3,
+        city_id=7,
+        title="London Barber School ✂️",
+        post_text="Get a cheap and decent haircut in London!",
+    )
+    post5 = Post(
+        user_id=3,
+        city_id=8,
+        title="Ubike in Taipei",
+        post_text="Get a city card and rent bike with rate of $1/hr!",
+    )
     db.session.add(post1)
     db.session.add(post2)
+    db.session.add(post3)
+    db.session.add(post4)
+    db.session.add(post5)
     db.session.commit()
 
 
