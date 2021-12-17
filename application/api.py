@@ -1,3 +1,4 @@
+from dataclasses import asdict
 from flask import Blueprint, request, abort, Response, jsonify
 import flask
 
@@ -75,10 +76,28 @@ def add_user() -> Tuple[Response, int]:
     )
 
 
+def create_post_dict(post: Post):
+    user = User.query.filter_by(user_id=int(post.user_id)).first()
+    if not user:
+        return
+    user_data = {
+        "user_id": user.user_id,
+        "username": user.username,
+        "first_name": user.first_name,
+        "surname": user.surname,
+    }
+    post_dict = asdict(post)
+    post_dict.pop("user_id")
+    post_dict["user"] = user_data
+    return post_dict
+
+
 @api.route("/api/posts", methods=["GET"])
 def get_all_posts() -> Tuple[Response, int]:
     """Function to get all posts from the database"""
     posts = Post.query.all()
+    for i in range(len(posts)):
+        posts[i] = create_post_dict(posts[i])
     return (jsonify(posts), 201)
 
 
@@ -87,12 +106,28 @@ def add_post() -> Tuple[Response, int]:
     """Function to add a new post to the database"""
     if not request.json or not "post" in request.json:
         abort(400, "Request form incorrect")
-    post = Post(**request.json["post"])
+    post_dict = request.json["post"]
+    post_dict.pop("tags")
+    tags_for_post = request.json["post"]["tags"]
+    post = Post(post_dict)
     db.session.add(post)
     db.session.commit()
+
+    for tag in tags_for_post:
+        db.session.execute(
+            tags_and_posts.insert().values(
+                tag_id=int(tag["tag_id"]), post_id=post.post_id
+            )
+        )
+    db.session.commit()
+
     return (
         jsonify(
-            {"message": "Post added successfully", "status": "SUCCESS", "post": post}
+            {
+                "message": "Post added successfully",
+                "status": "SUCCESS",
+                "post": create_post_dict(post),
+            }
         ),
         201,
     )
@@ -104,7 +139,10 @@ def get_post(post_id: int) -> Tuple[Response, int]:
     post = Post.query.filter_by(post_id=int(post_id)).first()
     if not post:
         abort(400, "Post doesn't exist")
-    return (jsonify(post), 201)
+    post_dict = create_post_dict(post)
+    if not post_dict:
+        abort(400, "Post doesn't exist")
+    return (jsonify(post_dict), 201)
 
 
 @api.route("/api/posts/<int:post_id>", methods=["PUT"])

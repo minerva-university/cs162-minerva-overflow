@@ -85,6 +85,7 @@ class Post(db.Model):
     upvotes: int
     edited: bool
     created_at: datetime.datetime
+    tags: Tag
 
     __tablename__ = "posts"
     # __searchable__ = ["title", "post_text"]
@@ -394,7 +395,7 @@ def insert_initial_users(target: Table, connection: Connection, **kw):
         about_me="I love boba",
     )
 
-    user3= User(
+    user3 = User(
         username="yuehan",
         password=guard.hash_password("7817"),
         first_name="Yueh Han",
