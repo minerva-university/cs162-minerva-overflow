@@ -41,25 +41,40 @@ export default function Addposts() {
     <main>
       <form className="form" onSubmit={handleSubmit}>
         <div className="add_post">
+          <h2 className="formTitle"> Add a new post </h2>
           <div className="inputBar">
             <input
-              className="title"
+              className="title formInput"
               type="text"
               placeholder="Add title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
             />
-
-            <select value={city_id} onChange={(e) => setCity(e.target.value)}>
+            <label for="city-select" className="formLabel">
+              Select the city:
+            </label>
+            <select
+              className="formInput"
+              id="city-select"
+              value={city_id}
+              onChange={(e) => setCity(e.target.value)}
+            >
               {allCities.map((city) => (
                 <option value={city.city_id} key={city.city_id}>
                   {city.city_name}
                 </option>
               ))}
             </select>
-
-            <select value={tag} onChange={(e) => setTag(e.target.value)}>
+            <label for="tag-select" className="formLabel">
+              Select the applicable tag:
+            </label>
+            <select
+              id="tag-select"
+              className="formInput"
+              value={tag}
+              onChange={(e) => setTag(e.target.value)}
+            >
               {allTags.map((tag) => (
                 <option value={tag.tag_id} key={tag.tag_id}>
                   {tag.tag_name}
@@ -70,7 +85,7 @@ export default function Addposts() {
           <input
             className="typingArea"
             type="text"
-            placeholder="What do you want to share with Minervans?"
+            placeholder="What do you want to share?"
             value={post_text}
             onChange={(e) => setPost(e.target.value)}
             required
