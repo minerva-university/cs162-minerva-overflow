@@ -2,6 +2,7 @@ import "./style/Home.css";
 import "./style/Addposts.css";
 import { useAuth } from "../auth";
 import Login from "./Login";
+import { useState } from "react";
 
 function Home() {
   const [info, setInfo] = useState([]);
@@ -32,16 +33,6 @@ function Home() {
       .then(setShow(true));
   };
 
-  // fetch("/api/protected", {
-  //   method: "get",
-  //   headers: {
-  //     "Authorization": "Bearer " + my_jwt
-  //   }
-  // })
-  //  .then(r => r.json())
-  //  .then((res) => setInfo(res))
-  //   .then(rJson => console.log(rJson))
-
   return (
     <div className="Home">
       <h1> Welcome back to Minerva Overflow!</h1>
@@ -61,7 +52,6 @@ function Home() {
           <p>Email: {info.email}</p>
           <p>About Me: {info.about_me}</p>
           <p>Cohort: {info.cohort_id}</p>
-          {console.log(info)}
         </div>
       ) : null}
     </div>

@@ -25,16 +25,37 @@ export default function Addposts() {
       .catch((err) => console.log(err));
   }, []);
 
-  function handleSubmit(e) {
-    const user_id = 1;
-    const data = { post: { user_id, city_id, title, post_text, tags: [tag] } };
-    console.log("DATA", data);
-    axios
-      .post("/api/posts", data)
-      .then(() => {
-        console.log("post add");
+  const getUserInfo = () => {
+    const token = localStorage.getItem("REACT_TOKEN_AUTH_KEY");
+    const my_jwt = token
+      .split(":")[1]
+      .substring(1, token.split(":")[1].length - 1);
+
+    return axios
+      .get("/api/protected", {
+        headers: { Authorization: "Bearer " + my_jwt },
       })
-      .catch((err) => console.log(err));
+      .then((res) => res.data);
+  };
+
+  function handleSubmit(e) {
+    getUserInfo().then((userData) => {
+      const data = {
+        post: {
+          user_id: userData.user_id,
+          city_id,
+          title,
+          post_text,
+          tags: [tag],
+        },
+      };
+      axios
+        .post("/api/posts", data)
+        .then(() => {
+          console.log("post add");
+        })
+        .catch((err) => console.log(err));
+    });
   }
 
   return (

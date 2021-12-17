@@ -23,7 +23,6 @@ function Post() {
   return (
     <div clasName="PostContainer">
       {posts.map((post) => {
-        console.log("POSTS", post);
         return (
           <div className="Post">
             <h3 className="post_title">{post.title}</h3>

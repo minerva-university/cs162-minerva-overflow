@@ -8,7 +8,7 @@ import Login from "./components/Login";
 //import {useAuth} from "./auth"
 import Register from "./components/Register";
 import NavBar from "./components/NavBar";
-import { useAuth, authFetch } from "./auth";
+import { useAuth } from "./auth";
 
 function App() {
   /*
