@@ -1,10 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 import "./style/NavBar.css";
 import { useAuth, logout } from "../auth";
 
+const StyledLink = styled(Link)`
+  padding: 20px;
+  color: white;
+  text-decoration: none;
+  &:hover {
+    color: pink;
+    background: blue;
+`;
+
 function NavBar(props) {
-  //Navbar that contains links to different parts of the application
   const [logged] = useAuth();
   return (
     <div class="navbar-top">
@@ -13,9 +22,13 @@ function NavBar(props) {
         {" "}
         <Link to="/">Dashboard</Link>{" "}
       </h3>
+      <h3 id="search-nav">
+        {" "}
+        <Link to="/search"> Search </Link>{" "}
+      </h3>
       <h3 id="home-nav">
         {" "}
-        <Link to="/home">Home</Link>{" "}
+        <Link to="/home"> Home </Link>{" "}
       </h3>
       {!logged ? (
         <h3 id="login-nav">
@@ -24,7 +37,7 @@ function NavBar(props) {
         </h3>
       ) : (
         <h3 id="logout-btn" onClick={() => logout()}>
-          <a>Logout</a>
+          Logout
         </h3>
       )}
     </div>
@@ -32,4 +45,3 @@ function NavBar(props) {
 }
 
 export default NavBar;
-

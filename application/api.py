@@ -244,6 +244,13 @@ def get_cities() -> Tuple[Response, int]:
     cities = City.query.all()
     return (jsonify(cities), 201)
 
+@api.route("/api/search/<str:query>", methods=["POST"])
+def query_search() -> Tuple[Response, int]:
+    """Get all posts matching the user query"""
+    keyword = request.args.get('query')
+    results = Post.query.msearch(keyword)
+    return (jsonify(results), 201)
+
 
 """ 
 All functions below are utility functions that can be used in the route functions to have an easy connection

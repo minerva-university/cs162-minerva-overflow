@@ -88,7 +88,7 @@ class Post(db.Model):
     tags: Tag
 
     __tablename__ = "posts"
-    # __searchable__ = ["title", "post_text"]
+    __searchable__ = ["title", "post_text"]
 
     post_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
