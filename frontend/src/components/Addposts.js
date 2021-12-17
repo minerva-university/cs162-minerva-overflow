@@ -59,7 +59,7 @@ export default function Addposts() {
 
             <select value={tags} onChange={(e) => setTag(e.target.value)}>
               {allTags.map((tags) => (
-                <option value={tags.tags}>{tags.name}</option>
+                <option value={tags.tag_id}>{tags.tag_name}</option>
               ))}
             </select>
 
