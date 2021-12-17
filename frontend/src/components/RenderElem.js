@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useAuth, authFetch, login, logout } from "../auth";
-
+import "./style/Tags.css";
 function Elem(prop) {
   const [elements, setElements] = useState(["loading..."]);
   useEffect(() => {
@@ -26,7 +25,7 @@ function Elem(prop) {
   ));
   return (
     <div className="TagContainer">
-      <div>{prop.path}</div>
+      <div className="TagTitle">{prop.title}</div>
       <div className="Tags">{listItems}</div>
     </div>
   );

@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
 }
 
 code {
@@ -12,11 +13,11 @@ code {
     monospace;
 }
 
-Button {
+.Button {
   color: limegreen;
   border: 2px solid limegreen;
   font-size: 1em;
-  margin: 0.1em;
+  margin: 0.5em 0.25em 0.5em 0.25em;
   padding: 0.25em 1em;
   border-radius: 3px;
 }

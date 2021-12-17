@@ -1,24 +1,29 @@
-.Register{
-    width: 40%;
-    padding: 20px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    border: 2px solid rgb(94, 89, 155);
-    border-radius: 5%;
-    background-color: white;
+.Register {
+  width: 40%;
+  padding: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid rgb(94, 89, 155);
+  border-radius: 5%;
+  background-color: white;
 }
 
 .form-group {
-    padding: 6px;
+  padding: 6px;
 }
 
-#app{
-    background-color: rgb(94, 89, 155);
+.app {
+  background-color: rgb(94, 89, 155);
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 #register-btn {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
