@@ -6,7 +6,7 @@ export default function Addposts() {
   const [city_id, setCity] = React.useState(1);
   const [post_text, setPost] = React.useState("");
   const [title, setTitle] = React.useState("");
-  const [tag_id, setTag] = React.useState(1);
+  const [tags, setTag] = React.useState();
 
   const [allCities, setAllCities] = React.useState([]);
   const [allTags, setAllTags] = React.useState([]);
@@ -27,7 +27,7 @@ export default function Addposts() {
 
   function handleSubmit(e) {
     const user_id = 1;
-    const data = { post: { user_id, city_id, title, post_text } };
+    const data = { post: { user_id, city_id, title, post_text, tags } };
 
     axios
       .post("/api/posts", data)
@@ -57,9 +57,9 @@ export default function Addposts() {
               ))}
             </select>
 
-            <select value={tag_id} onChange={(e) => setTag(e.target.value)}>
+            <select value={tags} onChange={(e) => setTag(e.target.value)}>
               {allTags.map((tags) => (
-                <option value={tags.tag_id}>{tags.tag_name}</option>
+                <option value={tags.tags}>{tags.name}</option>
               ))}
             </select>
 
