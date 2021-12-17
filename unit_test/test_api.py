@@ -193,3 +193,26 @@ def test_get_cohorts(client):
         and "M22" in str(rv.data)
         and "M23" in str(rv.data)
     )
+
+def test_login(client):
+    """test if the login with correct credentials returns  200 code"""
+    rv = client.post(
+        "/api/login",
+        json={
+            "username": "ZheniaMagic",
+            "password": "Minerva"
+        },
+    )
+    assert rv.status_code == 200
+
+def test_incorrect_login(client):
+    """test if the login with incorrect credentials returns a 401 code"""
+    rv = client.post(
+        "/api/login",
+        json={
+            "username": "ZheniaMagic1",
+            "password": "Minerva"
+        },
+    )
+    assert rv.status_code == 401
+
