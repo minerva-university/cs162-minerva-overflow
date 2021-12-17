@@ -5,6 +5,8 @@ import Login from "./Login";
 import { useState } from "react";
 
 function Home() {
+  //Home page which pulls the data about the current user and 
+  //displays it on the page
   const [info, setInfo] = useState([]);
   const [show, setShow] = useState(false);
 
@@ -20,7 +22,6 @@ function Home() {
 
   const onSubmitClick = (e) => {
     e.preventDefault();
-    // console.log(opts)
     fetch("/api/protected", {
       method: "get",
       headers: {

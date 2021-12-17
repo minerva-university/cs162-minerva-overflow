@@ -311,7 +311,7 @@ def login():
     ret = {"access_token": guard.encode_jwt_token(user)}
     return ret, 200
 
-
+@flask_praetorian.auth_required
 @api.route("/api/refresh", methods=["POST"])
 def refresh():
     """
@@ -325,12 +325,12 @@ def refresh():
     old_token = request.get_data()
     new_token = guard.refresh_jwt_token(old_token)
     ret = {"access_token": new_token}
-    return ret, 200
+    return ret, 201
 
-@api.route("/api/protected")
+@api.route("/api/protected", methods=["GET"])
 @flask_praetorian.auth_required
 def protected():
     user = User.query.filter_by(
         username=flask_praetorian.current_user().username
     ).first()
-    return jsonify(user)
+    return jsonify(user), 201

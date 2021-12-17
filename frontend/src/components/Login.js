@@ -2,10 +2,14 @@ import React, { useEffect, useState, Component } from "react";
 import { login, useAuth, logout } from "../auth";
 import "./style/Login.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  //Login componen that contains a form that validates data in the
+  //user database and issues a token for the logged in user
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  let history = useNavigate();
 
   const onSubmitClick = (e) => {
     e.preventDefault();
@@ -13,7 +17,6 @@ function Login() {
       username: username,
       password: password,
     };
-    //console.log(opts)
     fetch("/api/login", {
       method: "post",
       body: JSON.stringify(opts),
@@ -22,9 +25,7 @@ function Login() {
       .then((token) => {
         if (token.access_token) {
           login(token);
-          //console.log(token)
         } else {
-          //console.log("Please type in correct username/password")
         }
       });
   };
@@ -45,8 +46,9 @@ function Login() {
         rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
       ></link>
-      <h2>Login</h2>
       {!logged ? (
+      <div> 
+        <h2>Login</h2>
         <form id="sign-in-form" action="#">
           <div className="form-group">
             <input
@@ -98,10 +100,9 @@ function Login() {
             </Link>
           </div>
         </form>
+      </div>
       ) : (
-        <button className="btn btn-primary btn-block" onClick={() => logout()}>
-          Logout
-        </button>
+         history("/home")
       )}
     </div>
   );

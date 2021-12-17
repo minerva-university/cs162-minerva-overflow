@@ -3,6 +3,8 @@ import axios from "axios";
 import "./style/Addposts.css";
 
 export default function Addposts() {
+  //A function used to add a post to the dashboard
+  //it collects data from the cities, tags, and protected APIs
   const [city_id, setCity] = React.useState(1);
   const [post_text, setPost] = React.useState("");
   const [title, setTitle] = React.useState("");

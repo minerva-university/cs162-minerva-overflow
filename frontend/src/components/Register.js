@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import "./style/Register.css";
 
 function Register() {
+  //Registration component that posts data in the backend 
+  //Takes the input and stores it in the Users Table
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");

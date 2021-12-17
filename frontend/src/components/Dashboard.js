@@ -7,6 +7,7 @@ import { useAuth } from "../auth";
 import "./style/Tags.css";
 
 function Dashboard() {
+  //function that contains dashboard elements
   const [logged] = [useAuth()];
 
   if (!logged[0]) {
