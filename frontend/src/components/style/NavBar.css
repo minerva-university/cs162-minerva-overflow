@@ -18,6 +18,11 @@
 }
 
 #dashboard-nav {
+  grid-column: 5;
+  padding: 10px;
+}
+
+#search-nav {
   grid-column: 6;
   padding: 10px;
 }
@@ -31,8 +36,6 @@
 #logout-btn {
   grid-column: 8;
   padding: 10px;
-  color: blue;
-  text-decoration: underline;
 }
 
 .Link {
