@@ -285,8 +285,8 @@ def refresh():
     ret = {"access_token": new_token}
     return ret, 200
 
-
 @api.route("/api/protected")
+@flask_praetorian.auth_required
 def protected():
     user = User.query.filter_by(
         username=flask_praetorian.current_user().username

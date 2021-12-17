@@ -6,8 +6,10 @@ export default function Addposts() {
   const [city_id, setCity] = React.useState(1);
   const [post_text, setPost] = React.useState("");
   const [title, setTitle] = React.useState("");
+  const [tags, setTag] = React.useState();
 
   const [allCities, setAllCities] = React.useState([]);
+  const [allTags, setAllTags] = React.useState([]);
 
   React.useEffect(() => {
     axios
@@ -16,9 +18,16 @@ export default function Addposts() {
       .catch((err) => console.log(err));
   }, []);
 
+  React.useEffect(() => {
+    axios
+      .get("/api/tags")
+      .then((res) => setAllTags(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+
   function handleSubmit(e) {
     const user_id = 1;
-    const data = { post: { user_id, city_id, title, post_text } };
+    const data = { post: { user_id, city_id, title, post_text, tags } };
 
     axios
       .post("/api/posts", data)
@@ -47,6 +56,13 @@ export default function Addposts() {
                 <option value={city.city_id}>{city.city_name}</option>
               ))}
             </select>
+
+            <select value={tags} onChange={(e) => setTag(e.target.value)}>
+              {allTags.map((tags) => (
+                <option value={tags.tag_id}>{tags.tag_name}</option>
+              ))}
+            </select>
+
           </div>
           <input
             className="typingArea"
