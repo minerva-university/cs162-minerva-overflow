@@ -78,6 +78,7 @@ def add_user() -> Tuple[Response, int]:
 
 def create_post_dict(post: Post):
     user = User.query.filter_by(user_id=int(post.user_id)).first()
+    city = City.query.filter_by(city_id=int(post.city_id)).first()
     if not user:
         return
     user_data = {
@@ -86,9 +87,15 @@ def create_post_dict(post: Post):
         "first_name": user.first_name,
         "surname": user.surname,
     }
+    if city:
+        city_data = asdict(city)
+    else:
+        city_data = {"city": {"city_name": "Unknown"}}
     post_dict = asdict(post)
     post_dict.pop("user_id")
+    post_dict.pop("city_id")
     post_dict["user"] = user_data
+    post_dict["city"] = city_data
     return post_dict
 
 

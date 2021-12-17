@@ -31,6 +31,7 @@ function Post() {
             <p className="post_author">
               Posted by {post.user.first_name} {post.user.surname}
             </p>
+            <p className="post_author">In {post.city.city_name}</p>
             {post.tags.map((tag) => (
               <button className="Button">#{tag.tag_name}</button>
             ))}
