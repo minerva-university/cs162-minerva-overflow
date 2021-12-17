@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { login, useAuth, logout } from "../auth";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useAuth, logout } from "../auth";
+import { useNavigate } from "react-router-dom";
 import "./style/Register.css";
-import Login from "./Login";
 
 function Register() {
   const [username, setUsername] = useState("");

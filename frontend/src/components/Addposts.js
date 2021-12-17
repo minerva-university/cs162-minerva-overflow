@@ -6,7 +6,7 @@ export default function Addposts() {
   const [city_id, setCity] = React.useState(1);
   const [post_text, setPost] = React.useState("");
   const [title, setTitle] = React.useState("");
-  const [tags, setTag] = React.useState();
+  const [tag, setTag] = React.useState(1);
 
   const [allCities, setAllCities] = React.useState([]);
   const [allTags, setAllTags] = React.useState([]);
@@ -25,49 +25,88 @@ export default function Addposts() {
       .catch((err) => console.log(err));
   }, []);
 
-  function handleSubmit(e) {
-    const user_id = 1;
-    const data = { post: { user_id, city_id, title, post_text, tags } };
+  const getUserInfo = () => {
+    const token = localStorage.getItem("REACT_TOKEN_AUTH_KEY");
+    const my_jwt = token
+      .split(":")[1]
+      .substring(1, token.split(":")[1].length - 1);
 
-    axios
-      .post("/api/posts", data)
-      .then(() => {
-        console.log("post add");
+    return axios
+      .get("/api/protected", {
+        headers: { Authorization: "Bearer " + my_jwt },
       })
-      .catch((err) => console.log(err));
+      .then((res) => res.data);
+  };
+
+  function handleSubmit(e) {
+    getUserInfo().then((userData) => {
+      const data = {
+        post: {
+          user_id: userData.user_id,
+          city_id,
+          title,
+          post_text,
+          tags: [tag],
+        },
+      };
+      axios
+        .post("/api/posts", data)
+        .then(() => {
+          console.log("post add");
+        })
+        .catch((err) => console.log(err));
+    });
   }
 
   return (
     <main>
       <form className="form" onSubmit={handleSubmit}>
         <div className="add_post">
+          <h2 className="formTitle"> Add a new post </h2>
           <div className="inputBar">
             <input
-              className="title"
+              className="title formInput"
               type="text"
               placeholder="Add title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
             />
-
-            <select value={city_id} onChange={(e) => setCity(e.target.value)}>
+            <label for="city-select" className="formLabel">
+              Select the city:
+            </label>
+            <select
+              className="formInput"
+              id="city-select"
+              value={city_id}
+              onChange={(e) => setCity(e.target.value)}
+            >
               {allCities.map((city) => (
-                <option value={city.city_id}>{city.city_name}</option>
+                <option value={city.city_id} key={city.city_id}>
+                  {city.city_name}
+                </option>
               ))}
             </select>
-
-            <select value={tags} onChange={(e) => setTag(e.target.value)}>
-              {allTags.map((tags) => (
-                <option value={tags.tag_id}>{tags.tag_name}</option>
+            <label for="tag-select" className="formLabel">
+              Select the applicable tag:
+            </label>
+            <select
+              id="tag-select"
+              className="formInput"
+              value={tag}
+              onChange={(e) => setTag(e.target.value)}
+            >
+              {allTags.map((tag) => (
+                <option value={tag.tag_id} key={tag.tag_id}>
+                  {tag.tag_name}
+                </option>
               ))}
             </select>
-
           </div>
           <input
             className="typingArea"
             type="text"
-            placeholder="What do you want to share with Minervans?"
+            placeholder="What do you want to share?"
             value={post_text}
             onChange={(e) => setPost(e.target.value)}
             required

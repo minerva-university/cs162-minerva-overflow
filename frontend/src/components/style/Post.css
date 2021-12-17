@@ -1,19 +1,27 @@
 .Post {
-    background-color: #D2DAD8;
-    color: #37312F;
-    border: 5px;
-    border-color: black;
-    margin-top: 0px;
-    margin-bottom: 15px;
-    padding: 0.25em 1em;
-    border-radius: 3px;
-    width : 700px;
-  }
+  background-color: #d2dad8;
+  color: #37312f;
+  border: 5px;
+  border-color: black;
+  margin-top: 0px;
+  margin-bottom: 15px;
+  padding: 0.25em 1em;
+  border-radius: 3px;
+  max-width: 700px;
+}
 
-  .post_text {
-    font-size: x-large;
-  }
+.post_title {
+  font-size: x-large;
+  margin-bottom: 4px;
+}
 
-  .name {
-    font-size: medium;
-  }
+.post_author {
+  font-size: small;
+  margin-top: 4px;
+  font-weight: semibold;
+}
+
+.post_text {
+  margin-top: 4px;
+  font-size: medium;
+}

@@ -31,6 +31,8 @@
 #logout-btn {
   grid-column: 8;
   padding: 10px;
+  color: blue;
+  text-decoration: underline;
 }
 
 .Link {

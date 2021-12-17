@@ -24,7 +24,7 @@ function NavBar(props) {
       </h3>
       <h3 id="home-nav">
         {" "}
-        <Link to="/home"> Home </Link>{" "}
+        <Link to="/home">Home</Link>{" "}
       </h3>
       {!logged ? (
         <h3 id="login-nav">
@@ -33,7 +33,7 @@ function NavBar(props) {
         </h3>
       ) : (
         <h3 id="logout-btn" onClick={() => logout()}>
-          Logout
+          <a>Logout</a>
         </h3>
       )}
     </div>
