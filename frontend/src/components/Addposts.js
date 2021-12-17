@@ -6,13 +6,22 @@ export default function Addposts() {
   const [city_id, setCity] = React.useState(1);
   const [post_text, setPost] = React.useState("");
   const [title, setTitle] = React.useState("");
+  const [tag_id, setTag] = React.useState(1);
 
   const [allCities, setAllCities] = React.useState([]);
+  const [allTags, setAllTags] = React.useState([]);
 
   React.useEffect(() => {
     axios
       .get("/api/cities")
       .then((res) => setAllCities(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  React.useEffect(() => {
+    axios
+      .get("/api/tags")
+      .then((res) => setAllTags(res.data))
       .catch((err) => console.log(err));
   }, []);
 
@@ -47,6 +56,13 @@ export default function Addposts() {
                 <option value={city.city_id}>{city.city_name}</option>
               ))}
             </select>
+
+            <select value={tag_id} onChange={(e) => setTag(e.target.value)}>
+              {allTags.map((tags) => (
+                <option value={tags.tag_id}>{tags.tag_name}</option>
+              ))}
+            </select>
+
           </div>
           <input
             className="typingArea"
