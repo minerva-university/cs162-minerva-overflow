@@ -203,7 +203,7 @@ def test_login(client):
             "password": "Minerva"
         },
     )
-    assert rv.status_code == 200
+    assert rv.status_code == 201
 
 def test_incorrect_login(client):
     """test if the login with incorrect credentials returns a 401 code"""
