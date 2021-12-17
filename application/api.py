@@ -333,4 +333,4 @@ def protected():
     user = User.query.filter_by(
         username=flask_praetorian.current_user().username
     ).first()
-    return jsonify(user)
+    return jsonify(user), 200
