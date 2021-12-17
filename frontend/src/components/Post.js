@@ -19,22 +19,14 @@ function Post() {
       });
   }, []);
 
-  var mock_data = {
-    name: "Yueh Han Huang",
-    user_id: 1,
-    city_id: 2,
-    post_text: "Bob's Donuts are so so great. I love them!",
-  };
-
   // const posts_items = posts.map((e) => <p className="Button">{e}</p>);
-  console.log(posts);
   return (
     <div clasName="PostContainer">
-      {posts.map(({ post_text, title, user_id }) => (
+      {posts.map(({ post_text, title, user }) => (
         <div className="Post">
           <p className="post_text">{title}</p>
           <p className="name">{post_text}</p>
-          <p className="name">Posted by user {user_id}</p>
+          {/* <p className="name">Posted by user {user.user_id}</p> */}
         </div>
       ))}
     </div>

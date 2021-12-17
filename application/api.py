@@ -107,17 +107,15 @@ def add_post() -> Tuple[Response, int]:
     if not request.json or not "post" in request.json:
         abort(400, "Request form incorrect")
     post_dict = request.json["post"]
-    post_dict.pop("tags")
     tags_for_post = request.json["post"]["tags"]
-    post = Post(post_dict)
+    post_dict.pop("tags")
+    post = Post(**post_dict)
     db.session.add(post)
     db.session.commit()
 
     for tag in tags_for_post:
         db.session.execute(
-            tags_and_posts.insert().values(
-                tag_id=int(tag["tag_id"]), post_id=post.post_id
-            )
+            tags_and_posts.insert().values(tag_id=int(tag), post_id=post.post_id)
         )
     db.session.commit()
 

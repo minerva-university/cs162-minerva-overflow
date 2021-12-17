@@ -19,7 +19,11 @@ function Elem(prop) {
       });
   }, []);
 
-  const listItems = elements.map((e) => <p className="Button">{e}</p>);
+  const listItems = elements.map((e, i) => (
+    <p className="Button" key={i}>
+      {e}
+    </p>
+  ));
   return (
     <div className="TagContainer">
       <div>{prop.path}</div>

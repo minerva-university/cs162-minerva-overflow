@@ -6,7 +6,7 @@ export default function Addposts() {
   const [city_id, setCity] = React.useState(1);
   const [post_text, setPost] = React.useState("");
   const [title, setTitle] = React.useState("");
-  const [tags, setTag] = React.useState();
+  const [tag, setTag] = React.useState(1);
 
   const [allCities, setAllCities] = React.useState([]);
   const [allTags, setAllTags] = React.useState([]);
@@ -27,8 +27,8 @@ export default function Addposts() {
 
   function handleSubmit(e) {
     const user_id = 1;
-    const data = { post: { user_id, city_id, title, post_text, tags } };
-
+    const data = { post: { user_id, city_id, title, post_text, tags: [tag] } };
+    console.log("DATA", data);
     axios
       .post("/api/posts", data)
       .then(() => {
@@ -53,16 +53,19 @@ export default function Addposts() {
 
             <select value={city_id} onChange={(e) => setCity(e.target.value)}>
               {allCities.map((city) => (
-                <option value={city.city_id}>{city.city_name}</option>
+                <option value={city.city_id} key={city.city_id}>
+                  {city.city_name}
+                </option>
               ))}
             </select>
 
-            <select value={tags} onChange={(e) => setTag(e.target.value)}>
-              {allTags.map((tags) => (
-                <option value={tags.tag_id}>{tags.tag_name}</option>
+            <select value={tag} onChange={(e) => setTag(e.target.value)}>
+              {allTags.map((tag) => (
+                <option value={tag.tag_id} key={tag.tag_id}>
+                  {tag.tag_name}
+                </option>
               ))}
             </select>
-
           </div>
           <input
             className="typingArea"
