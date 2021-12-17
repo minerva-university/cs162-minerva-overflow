@@ -24,8 +24,9 @@
 }
 
 .Button {
-  color: limegreen;
-  border: 2px solid limegreen;
+  color: #747776;
+  border: 2px solid ;
+  background-color: #E8EDEB;
   font-size: 0.6em;
   margin: 0.5em;
   padding: 0.25em 1em;
